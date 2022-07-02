@@ -2,6 +2,8 @@ import { LocalDeployCommands } from "./localdeploycommands";
 const { Client, Intents } = require('discord.js');
 const dotenv = require('dotenv').config();
 const log4js = require('log4js');
+const fs = require('node:fs');
+const path = require ('node:path');
 
 const logger = log4js.getLogger();
 const registrar = new LocalDeployCommands();
@@ -13,7 +15,7 @@ export class Init {
     //Reading token from .env file
     constructor() {
         logger.level = "ALL";
-        logger.debug("Reading discord token from .env file...")
+        logger.debug("Initializing discord token from .env file...")
         
         this.token = process.env.DISCORD_TOKEN;
         logger.debug("Constructed initialize class and read discord bot token.")
@@ -35,26 +37,9 @@ export class Init {
             logger.info("Sucessfully logged into discord!")
         })
 
+       //need to put logic here 
+                 
         logger.debug("Authenticating your clients token...");
-
-        client.on('interactionCreate', async (interaction: { 
-            isCommand?: any; 
-            reply?: any; 
-            commandName?: any; 
-            }) => {
-            if (!interaction.isCommand()) return;
-        
-            const { commandName } = interaction;
-        
-            if (commandName === 'ping') {
-                await interaction.reply('Pong!');
-            } else if (commandName === 'server') {
-                await interaction.reply('Server info.');
-            } else if (commandName === 'user') {
-                await interaction.reply('User info.');
-            }
-        });
-
         client.login(this.token);
 
 
