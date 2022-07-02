@@ -1,4 +1,4 @@
 import { Init } from './init';
 
 const core = new Init();
-core.start();
+core.startApplication();
