@@ -31,7 +31,16 @@ class Init {
         client.once('ready', () => {
             logger.info("Sucessfully logged into discord!");
         });
-        //need to put logic here
+        //Sample Logic --- Put logic here
+        client.on('interactionCreate', async (interaction) => {
+            if (!interaction.isCommand())
+                return;
+            const { commandName } = interaction;
+            if (commandName === 'ping') {
+                await interaction.reply('Pong!');
+            }
+        });
+        //Logging into discord         
         logger.debug("Authenticating your clients token...");
         client.login(this.token);
     }
