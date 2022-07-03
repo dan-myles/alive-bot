@@ -1,5 +1,5 @@
 import { LocalDeployCommands } from "./handler";
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
 const dotenv = require('dotenv').config();
 const log4js = require('log4js');
 const fs = require('node:fs');
@@ -32,6 +32,21 @@ export class Init {
         const client = new Client({
             intents: [Intents.FLAGS.GUILDS]
         });
+
+        //Dynamically loading commands
+        logger.debug("Dynamically loading commands...")
+        client.commands = new Collection();
+        const commandsPath = path.join(__dirname, 'commands');
+        const commandfiles = fs.readdirSync(commandsPath).filter((file: string) => file.endsWith('.ts'));
+
+        for (const file of commandfiles) {
+            const filePath = path.join(commandsPath, file);
+            const command = require(filePath);
+
+            client.commands.set(command.data.name, command);
+        }
+
+
 
         client.once('ready', () => {
             logger.info("Sucessfully logged into discord!")

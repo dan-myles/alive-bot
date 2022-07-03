@@ -10,7 +10,7 @@ export class Ping {
 
 	}
 
-	async execute(interaction: { reply: (arg0: string) => any; })  {
+	public async execute(interaction: { reply: (arg0: string) => any; })  {
 		await interaction.reply('Pong!');
 	}
 }
