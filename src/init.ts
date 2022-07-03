@@ -1,4 +1,4 @@
-import { LocalDeployCommands } from "./localdeploycommands";
+import { LocalDeployCommands } from "./handler";
 const { Client, Intents } = require('discord.js');
 const dotenv = require('dotenv').config();
 const log4js = require('log4js');
@@ -37,8 +37,20 @@ export class Init {
             logger.info("Sucessfully logged into discord!")
         })
 
-       //need to put logic here 
-                 
+       //Sample Logic --- Put logic here
+       client.on('interactionCreate', async (interaction: { isCommand?: any; reply?: any; commandName?: any; }) => {
+        if (!interaction.isCommand()) return;
+    
+        const { commandName } = interaction;
+    
+        if (commandName === 'ping') {
+            await interaction.reply('Pong!');
+        } 
+        });
+
+
+
+        //Logging into discord         
         logger.debug("Authenticating your clients token...");
         client.login(this.token);
 

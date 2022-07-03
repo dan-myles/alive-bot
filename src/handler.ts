@@ -23,9 +23,17 @@ export class LocalDeployCommands {
     }
 
     public registerCommands () {
+        //Registering commands
         logger.debug("Registering slash commands...")
+        const commands = new SlashCommandBuilder().setName("ping").setDescription('Replies with pong!');
+        const rest = new REST({version: '9'}).setToken(this.token);
         
-        logger.debug("Succesfully registered slash commands!")
+        rest.put(Routes.applicationGuildCommands(this.clientId, this.guildId), { body: commands })
+        .then(() => logger.debug("Succesfully registered slash commands!"));
+
+
+
+        
     }
 
 
