@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Init = void 0;
 const handler_1 = require("./handler");
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
 const dotenv = require('dotenv').config();
 const log4js = require('log4js');
 const fs = require('node:fs');
@@ -28,16 +28,35 @@ class Init {
         const client = new Client({
             intents: [Intents.FLAGS.GUILDS]
         });
+        //Dynamically loading commands
+        logger.debug("Dynamically loading commands...");
+        client.commands = new Collection();
+        const commandsPath = path.join(__dirname, 'commands');
+        const commandfiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
+        for (const file of commandfiles) {
+            const filePath = path.join(commandsPath, file);
+            const command = require(filePath);
+            client.commands.set(command.data.name, command);
+        }
         client.once('ready', () => {
             logger.info("Sucessfully logged into discord!");
         });
-        //Sample Logic --- Put logic here
+        //Dynamically executing commands
         client.on('interactionCreate', async (interaction) => {
             if (!interaction.isCommand())
                 return;
-            const { commandName } = interaction;
-            if (commandName === 'ping') {
-                await interaction.reply('Pong!');
+            const command = client.commands.get(interaction.commandName);
+            if (!command)
+                return;
+            try {
+                await command.execute(interaction);
+            }
+            catch (error) {
+                logger.error(error);
+                await interaction.reply({
+                    content: 'There was an error while executing this command!',
+                    ephemeral: true
+                });
             }
         });
         //Logging into discord         

@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+const fs = require('node:fs');
+const path = require('node:path');
 const logger = log4js.getLogger();
 class LocalDeployCommands {
     token;
@@ -22,9 +24,14 @@ class LocalDeployCommands {
     registerCommands() {
         //Registering commands
         logger.debug("Registering slash commands...");
-        const commands = [
-            new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!')
-        ];
+        const commands = [];
+        const commandsPath = path.join(__dirname, 'commands');
+        const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
+        for (const file of commandFiles) {
+            const filePath = path.join(commandsPath, file);
+            const command = require(filePath);
+            commands.push(command.data.toJSON());
+        }
         const rest = new REST({ version: '9' }).setToken(this.token);
         rest.put(Routes.applicationGuildCommands(this.clientId, this.guildId), { body: commands })
             .then(() => logger.debug("Succesfully registered slash commands!"));

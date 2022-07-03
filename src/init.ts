@@ -52,15 +52,22 @@ export class Init {
             logger.info("Sucessfully logged into discord!")
         })
 
-       //Sample Logic --- Put logic here
-       client.on('interactionCreate', async (interaction: { isCommand?: any; reply?: any; commandName?: any; }) => {
-        if (!interaction.isCommand()) return;
-    
-        const { commandName } = interaction;
-    
-        if (commandName === 'ping') {
-            await interaction.reply('Pong!');
-        } 
+       //Dynamically executing commands
+        client.on('interactionCreate', async (interaction: { isCommand?: any; reply?: any; commandName?: any; }) => {
+            if (!interaction.isCommand()) return;
+            const command = client.commands.get(interaction.commandName);
+
+            if (!command) return;
+
+            try {
+                await command.execute(interaction);
+            } catch (error) {
+            logger.error(error); 
+                await interaction.reply({
+                    content: 'There was an error while executing this command!', 
+                    ephemeral: true
+                });
+            }
         });
 
 
@@ -68,9 +75,6 @@ export class Init {
         //Logging into discord         
         logger.debug("Authenticating your clients token...");
         client.login(this.token);
-
-
-
     }
 
 }
