@@ -1,3 +1,4 @@
+import Ping from "./commands/ping";
 import { LocalDeployCommands } from "./handler";
 const { Client, Intents, Collection } = require('discord.js');
 const dotenv = require('dotenv').config();
@@ -33,40 +34,47 @@ export class Init {
             intents: [Intents.FLAGS.GUILDS]
         });
 
-        //Dynamically loading commands
-        logger.debug("Dynamically loading commands...")
-        client.commands = new Collection();
-        const commandsPath = path.join(__dirname, 'commands');
-        const commandfiles = fs.readdirSync(commandsPath).filter((file: string) => file.endsWith('.ts'));
-
-        for (const file of commandfiles) {
-            const filePath = path.join(commandsPath, file);
-            const command = require(filePath);
-
-            client.commands.set(command.data.name, command);
-        }
-
-
 
         client.once('ready', () => {
             logger.info("Sucessfully logged into discord!")
         })
 
-       //Dynamically executing commands
+
+
+        client.commands = new Collection();
+        const commandsPath = path.join(__dirname, 'commands');
+        const commandFiles = fs.readdirSync(commandsPath);
+
+        for (const file of commandFiles) {
+            const filePath = path.join(commandsPath, file);
+            const command = require(filePath);
+
+
+
+            logger.info(file)
+            logger.info(filePath);
+
+
+            client.commands.set(command.data.name, command);
+        }
+
+
+       //Dyniamically Executing Commands
         client.on('interactionCreate', async (interaction: { isCommand?: any; reply?: any; commandName?: any; }) => {
             if (!interaction.isCommand()) return;
+
             const command = client.commands.get(interaction.commandName);
 
             if (!command) return;
 
             try {
-                await command.execute(interaction);
-            } catch (error) {
-            logger.error(error); 
+                await command.execute(interaction)
+            }  catch (error) {
+                logger.error(error);
                 await interaction.reply({
-                    content: 'There was an error while executing this command!', 
+                    content: 'There was an error while executing this command!',
                     ephemeral: true
-                });
+                })
             }
         });
 
@@ -75,6 +83,13 @@ export class Init {
         //Logging into discord         
         logger.debug("Authenticating your clients token...");
         client.login(this.token);
+
+
+
+    }
+
+    public async importClass(filePath: string) {
+        return await import (filePath);
     }
 
 }

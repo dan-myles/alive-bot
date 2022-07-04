@@ -1,27 +1,30 @@
+export {}
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-module.exports = {
-	data: new SlashCommandBuilder()
+// module.exports = {
+// 	data: new SlashCommandBuilder()
+// 		.setName('ping')
+// 		.setDescription('Replies with Pong!'),
+// 	async execute(interaction: { reply: (arg0: string) => any; }) {
+// 		return interaction.reply('Pong!');
+// 	},
+// };
+
+
+export default class Ping {
+	public data: any;
+
+	constructor() {
+		this.data = new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Replies with Pong!'),
-	async execute(interaction: { reply: (arg0: string) => any; }) {
-		return interaction.reply('Pong!');
-	},
-};
+		.setDescription('Replies with pong!');
 
+	}
 
-// export class Ping {
-// 	public data: any;
+	public async execute(interaction: { reply: (arg0: string) => any; })  {
+		await interaction.reply('Pong!');
+	}
 
-// 	constructor() {
-// 		this.data = new SlashCommandBuilder().
-// 		setName('ping').
-// 		setDescription('Replies with Pong!');
+}
 
-// 	}
-
-// 	public async execute(interaction: { reply: (arg0: string) => any; })  {
-// 		await interaction.reply('Pong!');
-// 	}
-// }
-
+module.exports = new Ping();
