@@ -27,9 +27,6 @@ class Init {
         const client = new Client({
             intents: [Intents.FLAGS.GUILDS]
         });
-        // client.once('ready', () => {
-        //     logger.info("Sucessfully logged into discord!")
-        // })
         //Dynamically loading commands
         logger.debug("Dynamically loading commands...");
         client.commands = new Collection();
@@ -55,21 +52,6 @@ class Init {
                 client.on(event.name, async (interaction) => event.execute(interaction, client));
             }
         }
-        //Dyniamically Executing Commands
-        // client.on('interactionCreate', async (interaction: { isCommand?: any; reply?: any; commandName?: any; }) => {
-        //     if (!interaction.isCommand()) return;
-        //     const command = client.commands.get(interaction.commandName);
-        //     if (!command) return;
-        //     try {
-        //         await command.execute(interaction)
-        //     }  catch (error) {
-        //         logger.error(error);
-        //         await interaction.reply({
-        //             content: 'There was an error while executing this command!',
-        //             ephemeral: true
-        //         })
-        //     }
-        // });
         //Logging into discord         
         logger.debug("Authenticating your clients token...");
         client.login(this.token);
