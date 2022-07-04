@@ -24,19 +24,27 @@ class LocalDeployCommands {
     //Dynamically registering commands in /commands
     //Important: Currently not filtering for ONLY .ts files
     registerCommands() {
-        logger.debug("Registering slash commands...");
+        logger.debug("Instantiating register commands interface...");
         const commands = [];
         const commandsPath = path.join(__dirname, 'commands');
         const commandFiles = fs.readdirSync(commandsPath);
         for (const file of commandFiles) {
             const filePath = path.join(commandsPath, file);
             const command = require(filePath);
+            logger.debug("Registrar pulled command: " + file);
             commands.push(command.data.toJSON());
         }
-        // 
         const rest = new REST({ version: '9' }).setToken(this.token);
-        rest.put(Routes.applicationGuildCommands(this.clientId, this.guildId), { body: commands })
-            .then(() => logger.debug("Succesfully registered slash commands!"));
+        (async () => {
+            try {
+                logger.debug("Started registering pulled application commands...");
+                await rest.put(Routes.applicationGuildCommands(this.clientId, this.guildId), { body: commands });
+                logger.debug("Succesfully registered all application commands!");
+            }
+            catch (error) {
+                logger.error(error);
+            }
+        })();
     }
 }
 exports.LocalDeployCommands = LocalDeployCommands;

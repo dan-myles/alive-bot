@@ -1,4 +1,4 @@
-import Ping from "./commands/ping";
+import { isObject } from "util";
 import { LocalDeployCommands } from "./handler";
 const { Client, Intents, Collection } = require('discord.js');
 const dotenv = require('dotenv').config();
@@ -19,7 +19,6 @@ export class Init {
         logger.debug("Initializing discord token from .env file...")
         
         this.token = process.env.DISCORD_TOKEN;
-        logger.debug("Constructed initialize class and read discord bot token.")
     }
 
     //MAIN START FUNCTION
@@ -34,13 +33,8 @@ export class Init {
             intents: [Intents.FLAGS.GUILDS]
         });
 
-
-        client.once('ready', () => {
-            logger.info("Sucessfully logged into discord!")
-        })
-
-
-
+        //Dynamically loading commands
+        logger.debug("Dynamically loading commands...")
         client.commands = new Collection();
         const commandsPath = path.join(__dirname, 'commands');
         const commandFiles = fs.readdirSync(commandsPath);
@@ -48,48 +42,34 @@ export class Init {
         for (const file of commandFiles) {
             const filePath = path.join(commandsPath, file);
             const command = require(filePath);
-
-
-
-            logger.info(file)
-            logger.info(filePath);
-
+            logger.debug("Loaded command file " + file + " from "+ filePath);
 
             client.commands.set(command.data.name, command);
         }
 
+        //Dynamically loading events
+        const eventsPath = path.join(__dirname, 'events');
+        const evenFiles = fs.readdirSync(eventsPath);
 
-       //Dyniamically Executing Commands
-        client.on('interactionCreate', async (interaction: { isCommand?: any; reply?: any; commandName?: any; }) => {
-            if (!interaction.isCommand()) return;
+        for (const file of evenFiles) {
+            const filePath = path.join(eventsPath, file);
+            const event = require(filePath);
+            logger.debug(`Loading event file: ${file}`);
 
-            const command = client.commands.get(interaction.commandName);
-
-            if (!command) return;
-
-            try {
-                await command.execute(interaction)
-            }  catch (error) {
-                logger.error(error);
-                await interaction.reply({
-                    content: 'There was an error while executing this command!',
-                    ephemeral: true
-                })
+            if (event.once) {
+                client.once(event.name, () => event.execute(client));
+            } else {
+                client.on(event.name, async (interaction: {
+                    isCommand?: any;
+                    reply?: any;
+                    commandName?: any;
+                }) => event.execute(interaction, client));
             }
-        });
-
+        }
 
 
         //Logging into discord         
         logger.debug("Authenticating your clients token...");
         client.login(this.token);
-
-
-
     }
-
-    public async importClass(filePath: string) {
-        return await import (filePath);
-    }
-
 }
