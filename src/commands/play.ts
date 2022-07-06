@@ -1,16 +1,16 @@
 export {}
+import Logger from "../logger";
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const dotenv = require('dotenv').config();
-const log4js = require('log4js');
-
-const logger = log4js.getLogger();
 
 
 export default class Play {
 	public data: any;
 	public guildId: any;
+	private logger: any;
 
 	constructor() {
+		this.logger = new Logger();
 		this.guildId = process.env.GUILD_ID;
 		this.data = new SlashCommandBuilder()
 			.setName('play')
@@ -35,13 +35,24 @@ export default class Play {
 			options: any;
 			member: any;
 			guild: any; 
+			channel: any;
+			user: any;
+			username: any;
 		}, 
 		client: any)  {
 		const recievedMessage = interaction.options.getString('song');
+		const voiceChannel = interaction.member.voice.channel;
 
+		if (voiceChannel) {
+			client.player.play(voiceChannel, recievedMessage);
+			await interaction.reply(` test test started playing: ${recievedMessage}`);
+			
+			this.logger.info("Executed /play command: SUCCESS"); 
+		} else {
+			await interaction.reply(`${interaction.user.username}, you must be in a voice channel!`);
+			this.logger.error("Failed executing /play command: USER VOICE CHANNEL NOT FOUND");
+		}
 
-		
-		logger.info("Executed /play command: SUCCESS"); 
 	}
 
 }

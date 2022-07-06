@@ -1,18 +1,18 @@
 export {}
-const log4js = require('log4js');
-
-const logger = log4js.getLogger();
+import Logger from "../logger";
 
 
 export default class InteractionCreate {
     name: any;
+    logger: any;
 
     constructor() {
         this.name = 'interactionCreate';
+        this.logger = new Logger();
     }
 
     async execute(interaction: any, client: any) {
-        logger.debug(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
+        this.logger.debug(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
         if (!interaction.isCommand()) return;
 
         const command = client.commands.get(interaction.commandName);
@@ -22,7 +22,7 @@ export default class InteractionCreate {
         try {
             await command.execute(interaction, client)
         }  catch (error) {
-            logger.error(error);
+            this.logger.error(error);
             await interaction.reply({
                 content: 'There was an error while executing this command!',
                 ephemeral: true

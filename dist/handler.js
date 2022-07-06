@@ -1,21 +1,23 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocalDeployCommands = void 0;
+const logger_1 = __importDefault(require("./logger"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('node:fs');
 const path = require('node:path');
-const log4js = require('log4js');
 const dotenv = require('dotenv');
-const logger = log4js.getLogger();
+const logger = new logger_1.default();
 class LocalDeployCommands {
     token;
     clientId;
     guildId;
     constructor() {
         logger.debug("Reading clientId, guildId and token from .env file...");
-        logger.level = "ALL";
         this.token = process.env.DISCORD_TOKEN;
         this.clientId = process.env.CLIENT_ID;
         this.guildId = process.env.GUILD_ID;
