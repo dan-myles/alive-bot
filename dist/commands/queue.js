@@ -12,11 +12,11 @@ class Queue {
         this.logger = new logger_1.default();
         this.data = new SlashCommandBuilder()
             .setName('queue')
-            .setDescription('See the status of Alive discord bot!');
+            .setDescription('See the current queue');
     }
     async execute(interaction, client) {
-        await interaction.reply('Your bot is up and running!');
-        this.logger.info("Executed /status command: SUCCESS");
+        const queue = client.player.getQueue(interaction.guildId);
+        await interaction.reply('Current queue:\n' + queue.songs.map((song, id) => `**${id + 1}**. [${song.name}](${song.url}) - \`${song.formattedDuration}\``).join("\n"));
     }
 }
 exports.default = Queue;
