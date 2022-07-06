@@ -57,11 +57,11 @@ class Init {
             this.logger.debug("Loaded command file " + file);
             client.commands.set(command.data.name, command);
         }
-        //Dynamically loading events
-        const eventsPath = path.join(__dirname, 'events');
-        const evenFiles = fs.readdirSync(eventsPath);
-        for (const file of evenFiles) {
-            const filePath = path.join(eventsPath, file);
+        //Dynamically loading discord events
+        const discordEventsPath = path.join(__dirname, 'events');
+        const discordEventFiles = fs.readdirSync(discordEventsPath);
+        for (const file of discordEventFiles) {
+            const filePath = path.join(discordEventsPath, file);
             const event = require(filePath);
             this.logger.debug(`Loading event file: ${file}`);
             if (event.once) {
@@ -71,6 +71,17 @@ class Init {
                 client.on(event.name, async (interaction) => event.execute(interaction, client));
             }
         }
+        client.player.on("addSong", (queue, song) => queue.textChannel.send(`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}.`));
+        // Dynamically loading player events
+        // const playerEventsPath = path.join(__dirname, 'playerActions');
+        // const playerEventFiles = fs.readdirSync(playerEventsPath);
+        // for (const file of discordEventFiles) {
+        //     const playerFilePath = path.join(playerEventsPath, file);
+        //     const playerEvent = require(playerFilePath);
+        //     this.logger.debug(`Loading player event file: ${file}`);
+        //     client.player.on(playerEvent.name, async (interaction: any) => 
+        //     playerEvent.execute(interaction, client));
+        // }
         //Logging into discord         
         this.logger.debug("Authenticating your clients token...");
         client.login(this.token);

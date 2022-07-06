@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const log4js = require('log4js');
-const uuidv1 = require('uuid/v1');
+// const uuidv1 = require('uuid/v1');
 class Logger {
     std;
     sessionID;
     constructor() {
-        this.sessionID = uuidv1();
+        this.sessionID = 3213891231;
         log4js.configure({
             appenders: {
                 Alive: { type: 'stdout' },
