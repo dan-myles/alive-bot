@@ -28,29 +28,20 @@ export default class Play {
 						.setRequired(true));
 	}
 
-	public async execute(
-		interaction: {
-			guild_id: any;
-			reply: any;
-			options: any;
-			member: any;
-			guild: any; 
-			channel: any;
-			user: any;
-			username: any;
-		}, 
-		client: any)  {
+	public async execute(interaction: any, client: any)  {
 		const recievedMessage = interaction.options.getString('song');
 		const voiceChannel = interaction.member.voice.channel;
 
 		if (voiceChannel) {
-			client.player.play(voiceChannel, recievedMessage);
-			await interaction.reply(` test test started playing: ${recievedMessage}`);
+			client.player.play(voiceChannel, recievedMessage, {
+				member: interaction.member,
+				textChannel: interaction.member.textChannel,
+			});
 			
 			this.logger.info("Executed /play command: SUCCESS"); 
 		} else {
 			await interaction.reply(`${interaction.user.username}, you must be in a voice channel!`);
-			this.logger.error("Failed executing /play command: USER VOICE CHANNEL NOT FOUND");
+			this.logger.warn("Failed executing /play command: USER VOICE CHANNEL NOT FOUND");
 		}
 
 	}

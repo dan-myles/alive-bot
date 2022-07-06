@@ -36,6 +36,14 @@ export default class Logger {
         this.std.error(message);
     }
 
+    public fatal(message: any) {
+        this.std.fatal(message);
+    }
+
+    public warn(message: any) {
+        this.std.warn(message);
+    }
+
     public initLog() {
         this.std.info(`Starting bot with Session ID: ${this.sessionID}}`)
     }
