@@ -1,18 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const log4js = require('log4js');
-const logger = log4js.getLogger();
 class Status {
     data;
+    logger;
     constructor() {
         this.data = new SlashCommandBuilder()
             .setName('status')
-            .setDescription('The bot is up and running!');
+            .setDescription('See the status of Alive discord bot!');
     }
     async execute(interaction, client) {
-        await interaction.reply('Pong!');
-        logger.info("Executed /status command: SUCCESS");
+        await interaction.reply('Your bot is up and running!');
+        this.logger.info("Executed /status command: SUCCESS");
     }
 }
 exports.default = Status;

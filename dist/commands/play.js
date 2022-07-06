@@ -1,13 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const logger_1 = __importDefault(require("../logger"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const dotenv = require('dotenv').config();
-const log4js = require('log4js');
-const logger = log4js.getLogger();
 class Play {
     data;
     guildId;
+    logger;
     constructor() {
+        this.logger = new logger_1.default();
         this.guildId = process.env.GUILD_ID;
         this.data = new SlashCommandBuilder()
             .setName('play')
@@ -19,7 +23,16 @@ class Play {
     }
     async execute(interaction, client) {
         const recievedMessage = interaction.options.getString('song');
-        logger.info("Executed /play command: SUCCESS");
+        const voiceChannel = interaction.member.voice.channel;
+        if (voiceChannel) {
+            client.player.play(voiceChannel, recievedMessage);
+            await interaction.reply(` test test started playing: ${recievedMessage}`);
+            this.logger.info("Executed /play command: SUCCESS");
+        }
+        else {
+            await interaction.reply(`${interaction.user.username}, you must be in a voice channel!`);
+            this.logger.error("Failed executing /play command: USER VOICE CHANNEL NOT FOUND");
+        }
     }
 }
 exports.default = Play;

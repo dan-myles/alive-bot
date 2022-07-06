@@ -1,13 +1,13 @@
+import Logger from "./logger";
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('node:fs');
 const path = require('node:path');
-const log4js = require('log4js');
 const dotenv = require ('dotenv');
 
 
-const logger = log4js.getLogger();
+const logger = new Logger();
 
 
 export class LocalDeployCommands {
@@ -17,7 +17,6 @@ export class LocalDeployCommands {
 
     constructor() {
         logger.debug("Reading clientId, guildId and token from .env file...");
-        logger.level = "ALL";
 
         this.token = process.env.DISCORD_TOKEN;
         this.clientId = process.env.CLIENT_ID;

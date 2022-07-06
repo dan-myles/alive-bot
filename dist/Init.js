@@ -1,29 +1,35 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Init = void 0;
 const handler_1 = require("./handler");
+const logger_1 = __importDefault(require("./logger"));
 const { Client, Intents, Collection } = require('discord.js');
+const { DisTube } = require('distube');
+const { SoundCloudPlughin } = require('@distube/soundcloud');
 const dotenv = require('dotenv').config();
-const log4js = require('log4js');
 const fs = require('node:fs');
 const path = require('node:path');
-const logger = log4js.getLogger();
-const registrar = new handler_1.LocalDeployCommands();
 //Main Class
 class Init {
     token;
+    logger;
+    registrar;
     //Reading token from .env file
     constructor() {
-        logger.level = "ALL";
-        logger.debug("Initializing discord token from .env file...");
+        this.logger = new logger_1.default();
+        this.registrar = new handler_1.LocalDeployCommands();
+        this.logger.debug("Initializing discord token from .env file...");
         this.token = process.env.DISCORD_TOKEN;
     }
     //MAIN START FUNCTION
     startApplication() {
         //Registering slash commands
-        registrar.registerCommands();
-        //Starting bot and connecting to discord
-        logger.debug("Attempting to create a new client instance...");
+        this.registrar.registerCommands();
+        //Starting client
+        this.logger.debug("Attempting to create a new client instance...");
         const client = new Client({
             intents: [
                 Intents.FLAGS.GUILDS,
@@ -31,15 +37,24 @@ class Init {
                 Intents.FLAGS.GUILD_VOICE_STATES
             ]
         });
+        //Starting Music Core
+        const player = new DisTube(client, {
+            searchSongs: 5,
+            searchCooldown: 10,
+            leaveOnEmpty: true,
+            leaveOnFinish: true,
+            leaveOnStop: false,
+        });
+        client.player = player;
         //Dynamically loading commands
-        logger.debug("Dynamically loading commands...");
+        this.logger.debug("Dynamically loading commands...");
         client.commands = new Collection();
         const commandsPath = path.join(__dirname, 'commands');
         const commandFiles = fs.readdirSync(commandsPath);
         for (const file of commandFiles) {
             const filePath = path.join(commandsPath, file);
             const command = require(filePath);
-            logger.debug("Loaded command file " + file + " from " + filePath);
+            this.logger.debug("Loaded command file " + file);
             client.commands.set(command.data.name, command);
         }
         //Dynamically loading events
@@ -48,7 +63,7 @@ class Init {
         for (const file of evenFiles) {
             const filePath = path.join(eventsPath, file);
             const event = require(filePath);
-            logger.debug(`Loading event file: ${file}`);
+            this.logger.debug(`Loading event file: ${file}`);
             if (event.once) {
                 client.once(event.name, () => event.execute(client));
             }
@@ -57,7 +72,7 @@ class Init {
             }
         }
         //Logging into discord         
-        logger.debug("Authenticating your clients token...");
+        this.logger.debug("Authenticating your clients token...");
         client.login(this.token);
     }
 }
