@@ -15,7 +15,7 @@ export default class Status {
 
 	}
 
-	public async execute(interaction: { reply: (arg0: string) => any; })  {
+	public async execute(interaction: { reply: (arg0: string) => any; }, client: any)  {
 		await interaction.reply('Pong!');
 		logger.info("Executed /status command: SUCCESS"); 
 	}
