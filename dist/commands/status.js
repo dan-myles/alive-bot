@@ -10,7 +10,7 @@ class Status {
             .setName('status')
             .setDescription('The bot is up and running!');
     }
-    async execute(interaction) {
+    async execute(interaction, client) {
         await interaction.reply('Pong!');
         logger.info("Executed /status command: SUCCESS");
     }

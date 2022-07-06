@@ -25,7 +25,11 @@ class Init {
         //Starting bot and connecting to discord
         logger.debug("Attempting to create a new client instance...");
         const client = new Client({
-            intents: [Intents.FLAGS.GUILDS]
+            intents: [
+                Intents.FLAGS.GUILDS,
+                Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.GUILD_VOICE_STATES
+            ]
         });
         //Dynamically loading commands
         logger.debug("Dynamically loading commands...");

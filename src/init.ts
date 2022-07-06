@@ -1,4 +1,5 @@
 import { isObject } from "util";
+import Play from "./commands/play";
 import { LocalDeployCommands } from "./handler";
 const { Client, Intents, Collection } = require('discord.js');
 const dotenv = require('dotenv').config();
@@ -8,6 +9,7 @@ const path = require ('node:path');
 
 const logger = log4js.getLogger();
 const registrar = new LocalDeployCommands();
+
 
 //Main Class
 export class Init {
@@ -30,8 +32,18 @@ export class Init {
         //Starting bot and connecting to discord
         logger.debug("Attempting to create a new client instance...")
         const client = new Client({
-            intents: [Intents.FLAGS.GUILDS]
+            intents: [
+                Intents.FLAGS.GUILDS,
+                Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.GUILD_VOICE_STATES
+            ]
         });
+
+
+        
+
+
+
 
         //Dynamically loading commands
         logger.debug("Dynamically loading commands...")
