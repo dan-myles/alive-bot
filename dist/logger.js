@@ -30,6 +30,12 @@ class Logger {
     error(message) {
         this.std.error(message);
     }
+    fatal(message) {
+        this.std.fatal(message);
+    }
+    warn(message) {
+        this.std.warn(message);
+    }
     initLog() {
         this.std.info(`Starting bot with Session ID: ${this.sessionID}}`);
     }

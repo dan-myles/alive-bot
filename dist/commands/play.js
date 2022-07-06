@@ -25,13 +25,15 @@ class Play {
         const recievedMessage = interaction.options.getString('song');
         const voiceChannel = interaction.member.voice.channel;
         if (voiceChannel) {
-            client.player.play(voiceChannel, recievedMessage);
-            await interaction.reply(` test test started playing: ${recievedMessage}`);
+            client.player.play(voiceChannel, recievedMessage, {
+                member: interaction.member,
+                textChannel: interaction.member.textChannel,
+            });
             this.logger.info("Executed /play command: SUCCESS");
         }
         else {
             await interaction.reply(`${interaction.user.username}, you must be in a voice channel!`);
-            this.logger.error("Failed executing /play command: USER VOICE CHANNEL NOT FOUND");
+            this.logger.warn("Failed executing /play command: USER VOICE CHANNEL NOT FOUND");
         }
     }
 }
