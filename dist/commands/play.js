@@ -8,11 +8,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const dotenv = require('dotenv').config();
 class Play {
     data;
-    guildId;
     logger;
     constructor() {
         this.logger = new logger_1.default();
-        this.guildId = process.env.GUILD_ID;
         this.data = new SlashCommandBuilder()
             .setName('play')
             .setDescription('Play music in your voice channel!')
@@ -25,10 +23,39 @@ class Play {
         const recievedMessage = interaction.options.getString('song');
         const voiceChannel = interaction.member.voice.channel;
         if (voiceChannel) {
+            let message = interaction.member.message;
             client.player.play(voiceChannel, recievedMessage, {
                 member: interaction.member,
                 textChannel: interaction.member.textChannel,
+                message
             });
+            let isFound = false;
+            const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+            while (isFound === false) {
+                let queueExists;
+                if (typeof (client.player.getQueue(interaction.guildId)) == "undefined") {
+                    queueExists = false;
+                    this.logger.debug("No existing queue found, building queue...");
+                }
+                else {
+                    queueExists = true;
+                    this.logger.debug("Existing queue found!");
+                }
+                await sleep(1000);
+                const queueRequest = client.player.getQueue(interaction.guildId);
+                if (typeof (queueRequest) != "undefined") {
+                    isFound = true;
+                    if (queueRequest.songs.length == 1) {
+                        await interaction.reply(`Now Playing: ${queueRequest.songs[0].name}`);
+                    }
+                    else {
+                        let latest = queueRequest.songs[(queueRequest.songs.length - 1)];
+                        await interaction.reply(`Added to Queue: ${latest.name}
+						Queue Position: ${queueRequest.songs.length}`);
+                        this.logger.debug(queueRequest.songs.length);
+                    }
+                }
+            }
             this.logger.info("Executed /play command: SUCCESS");
         }
         else {
