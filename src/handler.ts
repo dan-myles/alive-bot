@@ -1,4 +1,4 @@
-import Logger from "./logger";
+import Logger from "./Logger";
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
@@ -10,7 +10,7 @@ const dotenv = require ('dotenv');
 const logger = new Logger();
 
 
-export class LocalDeployCommands {
+export default class Handler {
     private readonly token: string;
     private readonly clientId: string;
     private readonly guildId: string;

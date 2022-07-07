@@ -1,5 +1,5 @@
 export {}
-import Logger from "../logger";
+import Logger from "../Logger";
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 

@@ -1,8 +1,8 @@
-import Logger from "./logger";
-import { Init } from './init';
+import Logger from "./Logger";
+import Initialize from "./Initialize";
 
 const logger = new Logger();
-const core = new Init();
+const core = new Initialize();
 
 logger.initLog();
 core.startApplication();

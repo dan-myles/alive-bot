@@ -1,10 +1,10 @@
 export {}
-import Logger from "../logger";
+import Logger from "../Logger";
 
 
 export default class InteractionCreate {
-    name: any;
-    logger: any;
+    public name: any;
+    private logger: any;
 
     constructor() {
         this.name = 'interactionCreate';

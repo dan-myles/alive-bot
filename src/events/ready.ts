@@ -1,10 +1,10 @@
 export {}
-import Logger from "../logger";
+import Logger from "../Logger";
 
 export default class Ready {
-    name: any;
-    once: any;
-    logger: any;
+    public name: any;
+    public once: any;
+    private logger: any;
 
     constructor() {
         this.name = 'ready';
