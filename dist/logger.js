@@ -1,14 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const Assets_1 = __importDefault(require("./Assets"));
 const log4js = require('log4js');
-// const uuidv1 = require('uuid/v1');
 class Logger {
     std;
-    sessionID;
+    assets;
     constructor() {
-        //Problems with uuidv1 so just setting the same sesion id for now?
-        //Will be fixed soon
-        this.sessionID = 3213891231;
+        this.assets = new Assets_1.default();
         log4js.configure({
             appenders: {
                 Alive: { type: 'stdout' },
@@ -21,7 +22,7 @@ class Logger {
             },
         });
         this.std = log4js.getLogger("Alive");
-        this.std.addContext('sessionID', this.sessionID);
+        this.std.addContext('Version', this.assets.version);
     }
     debug(message) {
         this.std.debug(message);
@@ -39,7 +40,24 @@ class Logger {
         this.std.warn(message);
     }
     initLog() {
-        this.std.info(`Starting bot with Session ID: ${this.sessionID}}`);
+        this.std.info(`Initializing logger...\n\n\n\n
+        
+..####...##......######..##..##..######..........##...##..##..##...####...######...####...........#####....####...######.
+.##..##..##........##....##..##..##..............###.###..##..##..##........##....##..##..........##..##..##..##....##...
+.######..##........##....##..##..####............##.#.##..##..##...####.....##....##..............#####...##..##....##...
+.##..##..##........##.....####...##..............##...##..##..##......##....##....##..##..........##..##..##..##....##...
+.##..##..######..######....##....######..........##...##...####....####...######...####...........#####....####.....##...
+.........................................................................................................................
+
+        Alive Music Bot
+        Version: ${this.assets.version}
+        Release: Alive-Core
+        Developer: Dan
+
+        Thank you for using this bot. For more information visit https://github.com/danlikestocode/Alive-Core
+        Please make sure you are on the latest version of Alive Music Bot, since you are using Alive-Core auto-updating is not handled!
+        Latest releases can be found at: https://github.com/danlikestocode/Alive-Core/releases
+        \n\n\n\n\n`);
     }
 }
 exports.default = Logger;

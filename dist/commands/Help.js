@@ -21,7 +21,7 @@ class Help {
     async execute(interaction, client) {
         interaction.reply({
             embeds: [{
-                    title: `I heard you needed help! :person_tipping_hand:`,
+                    title: `I heard you needed help :person_tipping_hand:`,
                     description: `Hello, <@${interaction.user.id}>\nThis page shows you all commands available for this build of Alive Music Bot.
                 For more in-depth assistance with Alive Music Bot, make sure to join our [Discord](${this.assets.discordInvite})!\n\n\n**List of Commands**\n\n` +
                         client.commands.map((cmd) => `\`/${cmd.data.name}\`\n*${cmd.data.description}*\n`).join('\n'),

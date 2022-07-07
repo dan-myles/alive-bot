@@ -1,6 +1,6 @@
 {
   "name": "alive-core",
-  "version": "0.1.1",
+  "version": "1.9.102",
   "description": "",
   "main": "./dist/main.js",
   "scripts": {

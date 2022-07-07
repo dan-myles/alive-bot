@@ -1,6 +1,4 @@
 export {}
-import Logger from "./Logger"
-
 
 export default class Assets {
     public readonly logger: any;
@@ -25,10 +23,10 @@ export default class Assets {
     public readonly errorEmoji: any;
     public readonly successEmoji: any;
     public readonly discordInvite: any;
+    public readonly version: any;
 
 
     constructor() {
-        this.logger = new Logger();
         this.logoNormal = 'https://i.imgur.com/ZEcs8CV.jpg';
         this.logoBlack = 'https://i.imgur.com/HUf9nGL.png';
         this.logoTransparent = 'https://i.imgur.com/hE1LOHo.png';
@@ -50,5 +48,6 @@ export default class Assets {
         this.errorEmoji = ':x:';
         this.successEmoji = ':white_check_mark:';
         this.discordInvite = 'https://apeswon.club';
+        this.version = 'v1.9.102';
     }
 }

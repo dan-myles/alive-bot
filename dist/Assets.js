@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Logger_1 = __importDefault(require("./Logger"));
 class Assets {
     logger;
     logoNormal;
@@ -27,8 +23,8 @@ class Assets {
     errorEmoji;
     successEmoji;
     discordInvite;
+    version;
     constructor() {
-        this.logger = new Logger_1.default();
         this.logoNormal = 'https://i.imgur.com/ZEcs8CV.jpg';
         this.logoBlack = 'https://i.imgur.com/HUf9nGL.png';
         this.logoTransparent = 'https://i.imgur.com/hE1LOHo.png';
@@ -50,6 +46,7 @@ class Assets {
         this.errorEmoji = ':x:';
         this.successEmoji = ':white_check_mark:';
         this.discordInvite = 'https://apeswon.club';
+        this.version = 'v1.9.102';
     }
 }
 exports.default = Assets;
