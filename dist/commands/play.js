@@ -3,14 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const logger_1 = __importDefault(require("../logger"));
+const Logger_1 = __importDefault(require("../Logger"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const dotenv = require('dotenv').config();
 class Play {
     data;
     logger;
     constructor() {
-        this.logger = new logger_1.default();
+        this.logger = new Logger_1.default();
         this.data = new SlashCommandBuilder()
             .setName('play')
             .setDescription('Play music in your voice channel!')
@@ -20,6 +20,8 @@ class Play {
             .setRequired(true));
     }
     async execute(interaction, client) {
+        interaction.deferReply();
+        interaction.deleteReply();
         const recievedMessage = interaction.options.getString('song');
         const voiceChannel = interaction.member.voice.channel;
         if (voiceChannel) {
@@ -27,6 +29,7 @@ class Play {
                 member: interaction.member,
                 textChannel: interaction.channel
             });
+            ////Deprecated way of finding queue initialization
             // let isFound: any = false;
             // const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
             // while (isFound === false) {

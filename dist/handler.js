@@ -3,16 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LocalDeployCommands = void 0;
-const logger_1 = __importDefault(require("./logger"));
+const Logger_1 = __importDefault(require("./Logger"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('node:fs');
 const path = require('node:path');
 const dotenv = require('dotenv');
-const logger = new logger_1.default();
-class LocalDeployCommands {
+const logger = new Logger_1.default();
+class Handler {
     token;
     clientId;
     guildId;
@@ -49,4 +48,4 @@ class LocalDeployCommands {
         })();
     }
 }
-exports.LocalDeployCommands = LocalDeployCommands;
+exports.default = Handler;

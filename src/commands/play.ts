@@ -1,6 +1,6 @@
 export {}
 import { syncBuiltinESMExports } from "module";
-import Logger from "../logger";
+import Logger from "../Logger";
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const dotenv = require('dotenv').config();
 
@@ -28,6 +28,8 @@ export default class Play {
 	}
 
 	public async execute(interaction: any, client: any)  {
+		interaction.deferReply();
+		interaction.deleteReply();
 		const recievedMessage = interaction.options.getString('song');
 		const voiceChannel = interaction.member.voice.channel;
 
@@ -37,6 +39,7 @@ export default class Play {
 				textChannel: interaction.channel
 			});
 
+			////Deprecated way of finding queue initialization
 			// let isFound: any = false;
 			// const sleep = (ms: number | undefined) => new Promise(r => setTimeout(r, ms));
 			// while (isFound === false) {
@@ -66,9 +69,6 @@ export default class Play {
 			// 		}
 			// 	}
 			// }
-
-			
-			
 
 			this.logger.info("Executed /play command: SUCCESS"); 
 		} else {
