@@ -12,7 +12,7 @@ class Status {
         this.logger = new Logger_1.default();
         this.data = new SlashCommandBuilder()
             .setName('status')
-            .setDescription('Checks the status of Alive discord bot!');
+            .setDescription('Checks the status of Alive Music Bot');
     }
     async execute(interaction, client) {
         await interaction.reply('Your bot is up and running!');

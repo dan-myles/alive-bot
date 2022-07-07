@@ -19,9 +19,14 @@ class Assets {
     URL;
     name;
     embedColor;
+    embedErrorColor;
+    embedSuccessColor;
     footerText;
     deleteDurationNormal;
     deleteDurationNP;
+    errorEmoji;
+    successEmoji;
+    discordInvite;
     constructor() {
         this.logger = new Logger_1.default();
         this.logoNormal = 'https://i.imgur.com/ZEcs8CV.jpg';
@@ -37,10 +42,14 @@ class Assets {
         this.URL = 'https://github.com/danlikestocode/Alive-Core';
         this.name = 'Alive Music Bot';
         this.embedColor = '#F5756B';
+        this.embedErrorColor = '#ff0000';
+        this.embedSuccessColor = '#00ff00';
         this.footerText = 'alive music bot | open source | free';
         this.deleteDurationNormal = 15000;
         this.deleteDurationNP = 30000;
-        this.logger.debug('Loaded assets!');
+        this.errorEmoji = ':x:';
+        this.successEmoji = ':white_check_mark:';
+        this.discordInvite = 'https://apeswon.club';
     }
 }
 exports.default = Assets;

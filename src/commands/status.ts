@@ -11,7 +11,7 @@ export default class Status {
 		this.logger = new Logger();
 		this.data = new SlashCommandBuilder()
 		.setName('status')
-		.setDescription('Checks the status of Alive discord bot!');
+		.setDescription('Checks the status of Alive Music Bot');
 
 	}
 
