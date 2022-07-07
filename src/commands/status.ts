@@ -11,11 +11,11 @@ export default class Status {
 		this.logger = new Logger();
 		this.data = new SlashCommandBuilder()
 		.setName('status')
-		.setDescription('See the status of Alive discord bot!');
+		.setDescription('Checks the status of Alive discord bot!');
 
 	}
 
-	public async execute(interaction: { reply: (arg0: string) => any; }, client: any)  {
+	public async execute(interaction: any, client: any)  {
 		await interaction.reply('Your bot is up and running!');
 		this.logger.info("Executed /status command: SUCCESS"); 
 	}

@@ -1,12 +1,15 @@
 export {}
 import Logger from "./Logger"
+import Assets from "./Assets";
 const { MessageEmbed } = require('discord.js');
 
 export default class PlayerActions {
     private logger: any;
+    private assets: any; 
 
     constructor() {
        this.logger = new Logger(); 
+       this.assets = new Assets();
     }
 
 
@@ -16,25 +19,18 @@ export default class PlayerActions {
         this.logger.debug("Starting player event listener...")
         
         this.addSong(client);
+        this.playSong(client);
+        this.empty(client);
+        this.finish(client);
 
         //Add playlist
         client.player.on("addList", (queue: any, playlist: any) => queue.textChannel.send(
             `Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to the queue!`
         ));
 
-        //Queue is empty
-        client.player.on("empty", (queue: any) => queue.textChannel.send(
-            "Channel is empty. Leaving the channel"
-        ));
-
         //Error
         client.player.on("error", (channel: any, error: any) => channel.send(
             "An error encountered: " + error
-        ));
-
-        //Finished playing and nothing is in queue
-        client.player.on("finish", (queue: any) => queue.textChannel.send(
-            "No more song in queue"
         ));
 
         //Initializing queue
@@ -49,11 +45,6 @@ export default class PlayerActions {
             "Can't find related video to play."
         ));
         
-        //Player switches songs
-        client.player.on("playSong", (queue: any, song: any) => queue.textChannel.send(
-            `Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}`
-        ));
-
         //Search is canceled due to timeout
         client.player.on("searchCancel", (message: any) => message.channel.send(
             `Searching canceled due to timeout!`
@@ -81,32 +72,93 @@ export default class PlayerActions {
         this.logger.debug("Player events loaded succesfully!")
     }
 
+    //Add Song Event
     private addSong(client: any) {
-        //Add song
-        // client.player.on("addSong", (queue: any, song: any) => queue.textChannel.send(
-        //     `Added \`${song.name}\` - \`${song.formattedDuration}\` to the queue by ${song.user}.`
-        // ));
-
         client.player.on("addSong", (queue: any, song: any) => queue.textChannel.send({
             embeds: [
                 new MessageEmbed()
-                .setColor('#0099ff')
-                .setTitle('Some title')
-                .setURL('https://discord.js.org/')
-                .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-                .setDescription('Some description here')
-                .setThumbnail('https://i.imgur.com/AfFp7pu.png')
+                .setColor(this.assets.embedColor)
+                .setTitle('Added Song')
+                .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
                 .addFields(
-                    { name: 'Song Name', value: `${song.name}` },
-                    { name: '\u200B', value: '\u200B' },
-                    { name: 'Inline field title', value: 'Some value here', inline: true },
-                    { name: 'Inline field title', value: 'Some value here', inline: true },
+                    { name: `${song.name}`, value: `*Requested by:* ${song.user}` },
+                    { name: 'Position in Queue', value: `\`${queue.songs.length}\``, inline: true },
+                    { name: `Length`, value: `\`${song.formattedDuration}\``, inline: true },
+                    { name: `URL`, value: `${song.url}`, inline: true },
                 )
-                .addField('Inline field title', `hello!`, true)
-                .setImage('https://i.imgur.com/AfFp7pu.png')
                 .setTimestamp()
-                .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' })
+                .setThumbnail(song.thumbnail)
+                .setFooter({ text: this.assets.footerText })
             ]
-        }));
+        }).then(
+            (repliedMessage: any) => {
+                setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNormal)
+            }
+        ));
+    }
+
+    //Playing Next Song Event
+    private playSong (client: any) {
+        client.player.on("playSong", (queue: any, song: any) => queue.textChannel.send({
+            embeds: [
+                new MessageEmbed()
+                .setColor(this.assets.embedColor)
+                .setTitle('Now Playing')
+                .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
+                .addFields(
+                    { name: `${song.name}`, value: `*Requested by:* ${song.user}` },
+                    { name: "Source", value: `\`${song.source}\``, inline: true },
+                    { name: `Length`, value: `\`${song.formattedDuration}\``, inline: true },
+                    { name: `URL`, value: `${song.url}`, inline: true },
+                )
+                .setTimestamp()
+                .setImage(song.thumbnail)
+                .setFooter({ text: this.assets.footerText })
+            ]
+        }).then(
+            (repliedMessage: any) => {
+                setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
+            }
+        ));
+    }
+
+    //Empty channel event
+    private empty (client: any) {
+        client.player.on("empty", (queue: any) => queue.textChannel.send({
+            embeds: [
+                new MessageEmbed()
+                .setColor(this.assets.embedColor)
+                .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
+                .addFields(
+                    { name: `Channel is empty, leaving all channels!`, value: `There has to be a user connected to a channel for Alive Music Bot to play music.` },
+                )
+                .setTimestamp()
+                .setFooter({ text: this.assets.footerText })
+            ]
+        }).then(
+            (repliedMessage: any) => {
+                setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
+            }
+        ));
+    }
+
+    //Finished queue event
+    private finish (client: any) {
+        client.player.on("finish", (queue: any) => queue.textChannel.send({
+            embeds: [
+                new MessageEmbed()
+                .setColor(this.assets.embedColor)
+                .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
+                .addFields(
+                    { name: `Queue has finished!`, value: `In order to keep listening to music, add some songs to the queue using: \`/play\`` },
+                )
+                .setTimestamp()
+                .setFooter({ text: this.assets.footerText })
+            ]
+        }).then(
+            (repliedMessage: any) => {
+                setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
+            }
+        ));
     }
 }

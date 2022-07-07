@@ -42,7 +42,8 @@ class Initialize {
         //Starting Music Core
         const player = new DisTube(client, {
             searchSongs: 5,
-            searchCooldown: 10,
+            searchCooldown: 5,
+            emptyCooldown: 15,
             leaveOnEmpty: true,
             leaveOnFinish: true,
             leaveOnStop: false,
