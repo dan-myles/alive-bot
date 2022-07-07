@@ -6,7 +6,7 @@ const { MessageEmbed } = require('discord.js');
 
 
 
-export default class Queue {
+export default class AutoPlay {
 	public data: any;
 	private logger: any;
 	private assets: any;
@@ -15,8 +15,8 @@ export default class Queue {
 		this.logger = new Logger();
 		this.assets = new Assets();
 		this.data = new SlashCommandBuilder()
-		.setName('queue')
-		.setDescription('Shows the current queue');
+		.setName('autoplay')
+		.setDescription('Toggles autoplay on or off');
 	}
 
 	public async execute(interaction: any, client: any)  {
@@ -69,4 +69,4 @@ export default class Queue {
 	}
 }
 
-module.exports = new Queue();
+module.exports = new AutoPlay();

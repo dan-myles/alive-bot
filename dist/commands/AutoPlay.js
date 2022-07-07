@@ -7,7 +7,7 @@ const Logger_1 = __importDefault(require("../Logger"));
 const Assets_1 = __importDefault(require("../Assets"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-class Queue {
+class AutoPlay {
     data;
     logger;
     assets;
@@ -15,8 +15,8 @@ class Queue {
         this.logger = new Logger_1.default();
         this.assets = new Assets_1.default();
         this.data = new SlashCommandBuilder()
-            .setName('queue')
-            .setDescription('Shows the current queue');
+            .setName('autoplay')
+            .setDescription('Toggles autoplay on or off');
     }
     async execute(interaction, client) {
         interaction.deferReply();
@@ -56,5 +56,5 @@ class Queue {
         }
     }
 }
-exports.default = Queue;
-module.exports = new Queue();
+exports.default = AutoPlay;
+module.exports = new AutoPlay();

@@ -7,6 +7,8 @@ export default class Logger {
     private sessionID: any;
 
     constructor() {
+        //Problems with uuidv1 so just setting the same sesion id for now?
+        //Will be fixed soon
         this.sessionID = 3213891231;
         log4js.configure({
             appenders: {
