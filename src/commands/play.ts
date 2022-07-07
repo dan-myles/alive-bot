@@ -1,7 +1,6 @@
 export {}
-import { syncBuiltinESMExports } from "module";
-import test from "node:test";
 import Logger from "../Logger";
+import Assets from "../Assets";
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const dotenv = require('dotenv').config();
@@ -10,12 +9,14 @@ const dotenv = require('dotenv').config();
 export default class Play {
 	public data: any;
 	private logger: any;
+	private assets: any;
 
 	constructor() {
 		this.logger = new Logger();
+		this.assets = new Assets();
 		this.data = new SlashCommandBuilder()
 			.setName('play')
-			.setDescription('Play music in your voice channel!')
+			.setDescription('Plays music in your voice channel')
 			.addStringOption((option: { 
 				setName: (arg0: string) => 
 				{ (): any; new(): any; 
@@ -47,7 +48,11 @@ export default class Play {
 			} else {
 				//User is not in a voice channel
 				interaction.reply({
-					content: `<@${interaction.user.id}>, you must be in a voice channel!`,
+					embeds: [{
+						description: `**${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!**`,
+						color: this.assets.embedErrorColor,
+						author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
+					}],
 					ephemeral: true
 				});
 				this.logger.warn("Failed executing /play command: USER VOICE CHANNEL NOT FOUND");
@@ -70,7 +75,11 @@ export default class Play {
 				} else {
 					//User is NOT in same voice as bot
 					interaction.reply({
-						content: `<@${interaction.user.id}>, you must be in <#${botId}> to use that command!`,
+						embeds: [{
+							description: `**${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!**`,
+							color: this.assets.embedErrorColor,
+							author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
+						}],
 						ephemeral: true
 					});
 					this.logger.warn("Failed executing /play command: USER AND APPLICATION VOICE IDS DO NOT MATCH")
@@ -78,7 +87,11 @@ export default class Play {
 			} else {
 				//User is not in a voice channel
 				interaction.reply({
-					content: `<@${interaction.user.id}>, you must be in a voice channel!`,
+					embeds: [{
+						description: `**${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!**`,
+						color: this.assets.embedErrorColor,
+						author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
+					}],
 					ephemeral: true
 				});
 				this.logger.warn("Failed executing /play command: USER VOICE CHANNEL NOT FOUND");

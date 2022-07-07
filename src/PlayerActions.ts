@@ -30,7 +30,7 @@ export default class PlayerActions {
 
         //Error
         client.player.on("error", (channel: any, error: any) => channel.send(
-            "An error encountered: " + error
+            `${this.assets.errorEmoji}  |  An error was encountered: ` + error
         ));
 
         //Initializing queue
@@ -42,22 +42,22 @@ export default class PlayerActions {
         //No related songs found for query
         //Only emits when autoplay is on
         client.player.on("noRelated", (queue: any) => queue.textChannel.send(
-            "Can't find related video to play."
+            `${this.assets.errorEmoji}  |  Can't find related video to play.`
         ));
         
         //Search is canceled due to timeout
         client.player.on("searchCancel", (message: any) => message.channel.send(
-            `Searching canceled due to timeout!`
+            `${this.assets.errorEmoji}  |  Searching canceled due to timeout!`
         ));
 
         //Invalid search answer
         client.player.on("searchInvalidAnswer", (message: any) => message.channel.send(
-            `You answered an invalid number!`
+            `${this.assets.errorEmoji}  |  You answered an invalid number!`
         ));
         
         //No results from query
         client.player.on("searchNoResult", (message: any, query: any) => message.channel.send(
-            `No result found for ${query}!`
+            `${this.assets.errorEmoji}  |  No result found for ${query}!`
         ));
 
         //More than 1 result from query
@@ -128,10 +128,8 @@ export default class PlayerActions {
             embeds: [
                 new MessageEmbed()
                 .setColor(this.assets.embedColor)
+                .setDescription(`**${this.assets.errorEmoji}  |  Channel is empty, leaving all channels!**`)
                 .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
-                .addFields(
-                    { name: `Channel is empty, leaving all channels!`, value: `There has to be a user connected to a channel for Alive Music Bot to play music.` },
-                )
                 .setTimestamp()
                 .setFooter({ text: this.assets.footerText })
             ]
@@ -148,10 +146,8 @@ export default class PlayerActions {
             embeds: [
                 new MessageEmbed()
                 .setColor(this.assets.embedColor)
+                .setDescription(`**${this.assets.errorEmoji}  |  Queue has finished! In order to keep using Alive Music Bot, add some more songs to the queue!**`)
                 .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
-                .addFields(
-                    { name: `Queue has finished!`, value: `In order to keep listening to music, add some songs to the queue using: \`/play\`` },
-                )
                 .setTimestamp()
                 .setFooter({ text: this.assets.footerText })
             ]

@@ -24,7 +24,7 @@ class PlayerActions {
         //Add playlist
         client.player.on("addList", (queue, playlist) => queue.textChannel.send(`Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to the queue!`));
         //Error
-        client.player.on("error", (channel, error) => channel.send("An error encountered: " + error));
+        client.player.on("error", (channel, error) => channel.send(`${this.assets.errorEmoji}  |  An error was encountered: ` + error));
         //Initializing queue
         client.player.on("initQueue", (queue) => {
             queue.autoplay = true;
@@ -32,13 +32,13 @@ class PlayerActions {
         });
         //No related songs found for query
         //Only emits when autoplay is on
-        client.player.on("noRelated", (queue) => queue.textChannel.send("Can't find related video to play."));
+        client.player.on("noRelated", (queue) => queue.textChannel.send(`${this.assets.errorEmoji}  |  Can't find related video to play.`));
         //Search is canceled due to timeout
-        client.player.on("searchCancel", (message) => message.channel.send(`Searching canceled due to timeout!`));
+        client.player.on("searchCancel", (message) => message.channel.send(`${this.assets.errorEmoji}  |  Searching canceled due to timeout!`));
         //Invalid search answer
-        client.player.on("searchInvalidAnswer", (message) => message.channel.send(`You answered an invalid number!`));
+        client.player.on("searchInvalidAnswer", (message) => message.channel.send(`${this.assets.errorEmoji}  |  You answered an invalid number!`));
         //No results from query
-        client.player.on("searchNoResult", (message, query) => message.channel.send(`No result found for ${query}!`));
+        client.player.on("searchNoResult", (message, query) => message.channel.send(`${this.assets.errorEmoji}  |  No result found for ${query}!`));
         //More than 1 result from query
         //Has to be enabled
         client.player.on("searchResult", (message, results) => {
@@ -86,8 +86,8 @@ class PlayerActions {
             embeds: [
                 new MessageEmbed()
                     .setColor(this.assets.embedColor)
+                    .setDescription(`**${this.assets.errorEmoji}  |  Channel is empty, leaving all channels!**`)
                     .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
-                    .addFields({ name: `Channel is empty, leaving all channels!`, value: `There has to be a user connected to a channel for Alive Music Bot to play music.` })
                     .setTimestamp()
                     .setFooter({ text: this.assets.footerText })
             ]
@@ -101,8 +101,8 @@ class PlayerActions {
             embeds: [
                 new MessageEmbed()
                     .setColor(this.assets.embedColor)
+                    .setDescription(`**${this.assets.errorEmoji}  |  Queue has finished! In order to keep using Alive Music Bot, add some more songs to the queue!**`)
                     .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
-                    .addFields({ name: `Queue has finished!`, value: `In order to keep listening to music, add some songs to the queue using: \`/play\`` })
                     .setTimestamp()
                     .setFooter({ text: this.assets.footerText })
             ]
