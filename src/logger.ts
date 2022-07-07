@@ -1,15 +1,13 @@
+import Assets from "./Assets";
 const log4js = require('log4js');
-// const uuidv1 = require('uuid/v1');
 
 export default class Logger {
 
     private std: any;
-    private sessionID: any;
+    private assets: any;
 
     constructor() {
-        //Problems with uuidv1 so just setting the same sesion id for now?
-        //Will be fixed soon
-        this.sessionID = 3213891231;
+        this.assets = new Assets();
         log4js.configure({
             appenders: {
               Alive: { type: 'stdout' },
@@ -23,7 +21,7 @@ export default class Logger {
         });
 
         this.std = log4js.getLogger("Alive");
-        this.std.addContext('sessionID', this.sessionID);
+        this.std.addContext('Version', this.assets.version);
     }
 
     public debug(message: any) {
@@ -47,7 +45,25 @@ export default class Logger {
     }
 
     public initLog() {
-        this.std.info(`Starting bot with Session ID: ${this.sessionID}}`)
+        this.std.info(`Initializing logger...\n\n\n\n
+        
+..####...##......######..##..##..######..........##...##..##..##...####...######...####...........#####....####...######.
+.##..##..##........##....##..##..##..............###.###..##..##..##........##....##..##..........##..##..##..##....##...
+.######..##........##....##..##..####............##.#.##..##..##...####.....##....##..............#####...##..##....##...
+.##..##..##........##.....####...##..............##...##..##..##......##....##....##..##..........##..##..##..##....##...
+.##..##..######..######....##....######..........##...##...####....####...######...####...........#####....####.....##...
+.........................................................................................................................
+
+        Alive Music Bot
+        Version: ${this.assets.version}
+        Release: Alive-Core
+        Developer: Dan
+
+        Thank you for using this bot. For more information visit https://github.com/danlikestocode/Alive-Core
+        Please make sure you are on the latest version of Alive Music Bot, since you are using Alive-Core auto-updating is not handled!
+        Latest releases can be found at: https://github.com/danlikestocode/Alive-Core/releases
+        \n\n\n\n\n`);
+        
     }
 
 }

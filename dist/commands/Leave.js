@@ -24,7 +24,7 @@ class Leave {
             interaction.reply({
                 embeds: [{
                         description: `**${this.assets.successEmoji}  |  I have left all voice channels!**`,
-                        color: this.assets.embedSuccessColor,
+                        color: this.assets.embedColor,
                         author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
                     }],
                 ephemeral: true
