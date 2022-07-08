@@ -36,7 +36,8 @@
 - Discord Bot Token - **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
 - Guild ID
 - Client ID
-- Node JS v16.11.0 or newer
+- Node JS v18.4.0 or newer
+*This application may work on older versions of node, but are not supported*
 
 ## 🚀 Getting Started
 
