@@ -1,7 +1,7 @@
 <div align="center">
     <p>
         <a href="https://github.com/danlikestocode/Alive-Core/releases">
-        <img src="https://i.imgur.com/ZEcs8CV.jpg">
+        <img src="https://i.imgur.com/61i0MIA.png">
         </a>
     </p>
 </div>
@@ -17,6 +17,18 @@
 - Varied support for multiple music sources
 - Autoplay related songs
 - Frequent updates & bug fixes
+
+## 🎶 Supported Sites
+- YouTube
+- Spotify
+- SoundCloud
+- YouTube Playlists
+- Spotify Playlists
+- SoundCloud Playlists
+- Apple Music (Coming Soon)
+- Any Audio Link
+
+*Update to the latest version of Alive Music Bot for the latest support*
 
 ## 🧾 Requirements
 - Discord Bot Token - **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
