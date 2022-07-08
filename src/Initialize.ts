@@ -4,6 +4,7 @@ import PlayerActions from "./PlayerActions";
 
 const { Client, Intents, Collection } = require('discord.js');
 const { DisTube } = require('distube');
+const { SpotifyPlugin } = require('@distube/spotify');
 const { SoundCloudPlughin } = require('@distube/soundcloud');
 
 const dotenv = require('dotenv').config();
@@ -47,6 +48,12 @@ export default class Initialize {
 
         //Starting Music Core
         const player = new DisTube(client, {
+            plugins: [
+                new SpotifyPlugin({
+                    parallel: true,
+                    emitEventsAfterFetching: true,
+                 })
+            ],
             searchSongs: 5,
             searchCooldown: 5,
             emptyCooldown: 15,
