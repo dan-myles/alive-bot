@@ -37,6 +37,7 @@
 - Guild ID
 - Client ID
 - Node JS v18.4.0 or newer
+
 *This application may work on older versions of node, but are not supported*
 
 ## 🚀 Getting Started
