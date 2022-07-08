@@ -27,7 +27,7 @@ export default class Previous {
 			//Existing queue NOT found
 			if (voiceChannel) {
                 //User voice chanel exists
-                interaction.reply({
+                await interaction.reply({
                     embeds: [{
                         description: `${this.assets.errorEmoji}  |  I am not in any voice channels!`,
                         color: this.assets.embedErrorColor,
@@ -39,7 +39,7 @@ export default class Previous {
                 this.logger.warn("Failed executing /previous command: PLAYER NOT FOUND")
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,
@@ -62,7 +62,7 @@ export default class Previous {
                         //Previous songs are found
                         let song = queue.previous();
 
-                        interaction.reply({
+                        await interaction.reply({
                             embeds: [{
                                 description: `:rewind:  | Started playing the previous song!\n*Requested by:* <@${interaction.user.id}>`,
                                 color: this.assets.embedColor,
@@ -74,7 +74,7 @@ export default class Previous {
                         setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
                     } else {
                         //No previous song exists
-                        interaction.reply({
+                        await interaction.reply({
                             embeds: [{
                                 description: `${this.assets.errorEmoji}  |  No previous song found!`,
                                 color: this.assets.embedErrorColor,
@@ -87,7 +87,7 @@ export default class Previous {
 
 				} else {
 					//User is NOT in same voice as bot
-					interaction.reply({
+					await interaction.reply({
 						embeds: [{
 							description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!`,
 							color: this.assets.embedErrorColor,
@@ -99,7 +99,7 @@ export default class Previous {
 				}
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,

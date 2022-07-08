@@ -27,7 +27,7 @@ export default class Pause {
 			//Existing queue NOT found
 			if (voiceChannel) {
                 //voice chanel exists
-                interaction.reply({
+                await interaction.reply({
                     embeds: [{
                         description: `${this.assets.errorEmoji}  |  There is nothing in to pause right now!`,
                         color: this.assets.embedErrorColor,
@@ -39,7 +39,7 @@ export default class Pause {
                 this.logger.warn("Failed executing /pause command: PLAYER NOT FOUND")
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,
@@ -58,7 +58,7 @@ export default class Pause {
 					//User is in same voice as bot
                     queue.pause();
 					
-                    interaction.reply({
+                    await interaction.reply({
                         embeds: [{
                             description: `:pause_button:  |  Paused the player.`,
                             color: this.assets.embedColor,
@@ -71,7 +71,7 @@ export default class Pause {
 					setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
 				} else {
 					//User is NOT in same voice as bot
-					interaction.reply({
+					await interaction.reply({
 						embeds: [{
 							description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!`,
 							color: this.assets.embedErrorColor,
@@ -83,7 +83,7 @@ export default class Pause {
 				}
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,

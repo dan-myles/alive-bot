@@ -30,7 +30,7 @@ class Play {
             //Existing queue NOT found
             if (voiceChannel) {
                 interaction.deferReply();
-                interaction.deleteReply();
+                await interaction.deleteReply();
                 client.player.play(voiceChannel, recievedMessage, {
                     member: interaction.member,
                     textChannel: interaction.channel
@@ -39,7 +39,7 @@ class Play {
             }
             else {
                 //User is not in a voice channel
-                interaction.reply({
+                await interaction.reply({
                     embeds: [{
                             description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
                             color: this.assets.embedErrorColor,
@@ -58,7 +58,7 @@ class Play {
                 if (userId === botId) {
                     //User is in same voice as bot
                     interaction.deferReply();
-                    interaction.deleteReply();
+                    await interaction.deleteReply();
                     client.player.play(voiceChannel, recievedMessage, {
                         member: interaction.member,
                         textChannel: interaction.channel
@@ -67,7 +67,7 @@ class Play {
                 }
                 else {
                     //User is NOT in same voice as bot
-                    interaction.reply({
+                    await interaction.reply({
                         embeds: [{
                                 description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!`,
                                 color: this.assets.embedErrorColor,
@@ -80,7 +80,7 @@ class Play {
             }
             else {
                 //User is not in a voice channel
-                interaction.reply({
+                await interaction.reply({
                     embeds: [{
                             description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
                             color: this.assets.embedErrorColor,

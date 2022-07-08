@@ -27,7 +27,7 @@ export default class Leave {
 			//Existing queue NOT found
 			if (voiceChannel) {
                 //voice chanel exists
-                interaction.reply({
+                await interaction.reply({
                     embeds: [{
                         description: `${this.assets.errorEmoji}  |  I am not in any voice channels!`,
                         color: this.assets.embedErrorColor,
@@ -39,7 +39,7 @@ export default class Leave {
                 this.logger.warn("Failed executing /leave command: PLAYER NOT FOUND")
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,
@@ -59,7 +59,7 @@ export default class Leave {
                     queue.stop();
                     client.player.voices.leave(interaction.guildId);
 
-                    interaction.reply({
+                    await interaction.reply({
                         embeds: [{
                             description: `${this.assets.successEmoji}  |  I have left all voice channels!`,
                             color: this.assets.embedColor,
@@ -72,7 +72,7 @@ export default class Leave {
                     setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
 				} else {
 					//User is NOT in same voice as bot
-					interaction.reply({
+					await interaction.reply({
 						embeds: [{
 							description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!`,
 							color: this.assets.embedErrorColor,
@@ -84,7 +84,7 @@ export default class Leave {
 				}
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,

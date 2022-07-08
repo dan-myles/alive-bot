@@ -22,7 +22,7 @@ class Queue {
         const queue = client.player.getQueue(interaction.guildId);
         if (typeof (queue) != 'undefined') {
             //Queue found
-            interaction.reply({
+            await interaction.reply({
                 embeds: [{
                         title: 'Queue',
                         description: queue.songs.map((song, id, url) => `**${id + 1}**. [${song.name}](${song.url}) - \`${song.formattedDuration}\``)
@@ -38,7 +38,7 @@ class Queue {
         }
         else {
             //No queue found
-            interaction.reply({
+            await interaction.reply({
                 embeds: [{
                         description: `${this.assets.errorEmoji}  |  There is nothing in the queue right now!`,
                         color: this.assets.embedErrorColor,

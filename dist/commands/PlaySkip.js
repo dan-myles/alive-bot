@@ -29,8 +29,8 @@ class PlaySkip {
         if (typeof (queue) === 'undefined') {
             //Existing queue NOT found
             if (voiceChannel) {
-                interaction.deferReply();
-                interaction.deleteReply();
+                await interaction.deferReply();
+                await interaction.deleteReply();
                 client.player.play(voiceChannel, recievedMessage, {
                     member: interaction.member,
                     textChannel: interaction.channel,
@@ -40,7 +40,7 @@ class PlaySkip {
             }
             else {
                 //User is not in a voice channel
-                interaction.reply({
+                await interaction.reply({
                     embeds: [{
                             description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
                             color: this.assets.embedErrorColor,
@@ -59,7 +59,7 @@ class PlaySkip {
                 if (userId === botId) {
                     //User is in same voice as bot
                     interaction.deferReply();
-                    interaction.deleteReply();
+                    await interaction.deleteReply();
                     client.player.play(voiceChannel, recievedMessage, {
                         member: interaction.member,
                         textChannel: interaction.channel,

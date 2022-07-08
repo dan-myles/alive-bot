@@ -27,7 +27,7 @@ export default class Skip {
 			//Existing queue NOT found
 			if (voiceChannel) {
                 //User voice chanel exists
-                interaction.reply({
+                await interaction.reply({
                     embeds: [{
                         description: `${this.assets.errorEmoji}  |  I am not in any voice channels!`,
                         color: this.assets.embedErrorColor,
@@ -39,7 +39,7 @@ export default class Skip {
                 this.logger.warn("Failed executing /skip command: PLAYER NOT FOUND")
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,
@@ -58,7 +58,7 @@ export default class Skip {
 					//User is in same voice as bot
 					try {
 						const song = await queue.skip();
-						interaction.reply({
+						await interaction.reply({
 							embeds: [{
 								description: `${this.assets.successEmoji}  |  I have skipped the current song!`,
 								color: this.assets.embedColor,
@@ -70,7 +70,7 @@ export default class Skip {
 						this.logger.info("Executed /skip command: SUCCESS");
 						setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
 					} catch(error) {
-						interaction.reply({
+						await interaction.reply({
 							embeds: [{
 								description: `${this.assets.errorEmoji}  |  ${error}`,
 								color: this.assets.embedColor,
@@ -82,7 +82,7 @@ export default class Skip {
 					}
 				} else {
 					//User is NOT in same voice as bot
-					interaction.reply({
+					await interaction.reply({
 						embeds: [{
 							description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!`,
 							color: this.assets.embedErrorColor,
@@ -94,7 +94,7 @@ export default class Skip {
 				}
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,
