@@ -12,7 +12,7 @@ class InteractionCreate {
         this.logger = new Logger_1.default();
     }
     async execute(interaction, client) {
-        this.logger.debug(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
+        this.logger.info(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
         if (!interaction.isCommand())
             return;
         const command = client.commands.get(interaction.commandName);

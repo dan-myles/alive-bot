@@ -7,7 +7,7 @@ const Logger_1 = __importDefault(require("../Logger"));
 const Assets_1 = __importDefault(require("../Assets"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-class AutoPlay {
+class PlaySkip {
     data;
     logger;
     assets;
@@ -15,25 +15,28 @@ class AutoPlay {
         this.logger = new Logger_1.default();
         this.assets = new Assets_1.default();
         this.data = new SlashCommandBuilder()
-            .setName('autoplay')
-            .setDescription('Toggles autoplay on or off');
+            .setName('playskip')
+            .setDescription('Plays a song at the front of the queue')
+            .addStringOption((option) => option
+            .setName('song')
+            .setDescription('Enter your URL or song name!')
+            .setRequired(true));
     }
     async execute(interaction, client) {
+        const recievedMessage = interaction.options.getString('song');
         const voiceChannel = interaction.member.voice.channel;
         const queue = client.player.getQueue(interaction.guildId);
         if (typeof (queue) === 'undefined') {
             //Existing queue NOT found
             if (voiceChannel) {
-                //User voice chanel exists
-                interaction.reply({
-                    embeds: [{
-                            description: `${this.assets.errorEmoji}  |  I am not in any voice channels!`,
-                            color: this.assets.embedErrorColor,
-                            author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
-                        }],
-                    ephemeral: true
+                interaction.deferReply();
+                interaction.deleteReply();
+                client.player.play(voiceChannel, recievedMessage, {
+                    member: interaction.member,
+                    textChannel: interaction.channel,
+                    skip: true
                 });
-                this.logger.warn("Failed executing /autoplay command: PLAYER NOT FOUND");
+                this.logger.info("Executed /playskip command: SUCCESS");
             }
             else {
                 //User is not in a voice channel
@@ -45,7 +48,7 @@ class AutoPlay {
                         }],
                     ephemeral: true
                 });
-                this.logger.warn("Failed executing /autoplay command: USER VOICE CHANNEL NOT FOUND");
+                this.logger.warn("Failed executing /playskip command: USER VOICE CHANNEL NOT FOUND");
             }
         }
         else {
@@ -55,18 +58,14 @@ class AutoPlay {
                 let botId = interaction.guild.me.voice.channel.id;
                 if (userId === botId) {
                     //User is in same voice as bot
-                    const autoPlay = queue.toggleAutoplay();
-                    interaction.reply({
-                        embeds: [{
-                                description: `Auto-Play has been turned: \`${autoPlay ? 'On' : 'Off'}\``,
-                                color: this.assets.embedColor,
-                                author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL }),
-                                footer: ({ text: this.assets.footerText })
-                            }],
-                        ephemeral: false
+                    interaction.deferReply();
+                    interaction.deleteReply();
+                    client.player.play(voiceChannel, recievedMessage, {
+                        member: interaction.member,
+                        textChannel: interaction.channel,
+                        skip: true
                     });
-                    this.logger.info("Executed /autoplay command: SUCCESS");
-                    setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
+                    this.logger.info("Executed /playskip command: SUCCESS");
                 }
                 else {
                     //User is NOT in same voice as bot
@@ -78,7 +77,7 @@ class AutoPlay {
                             }],
                         ephemeral: true
                     });
-                    this.logger.warn("Failed executing /autoplay command: USER AND APPLICATION VOICE IDS DO NOT MATCH");
+                    this.logger.warn("Failed executing /playskip command: USER AND APPLICATION VOICE IDS DO NOT MATCH");
                 }
             }
             else {
@@ -91,10 +90,10 @@ class AutoPlay {
                         }],
                     ephemeral: true
                 });
-                this.logger.warn("Failed executing /autoplay command: USER VOICE CHANNEL NOT FOUND");
+                this.logger.warn("Failed executing /playskip command: USER VOICE CHANNEL NOT FOUND");
             }
         }
     }
 }
-exports.default = AutoPlay;
-module.exports = new AutoPlay();
+exports.default = PlaySkip;
+module.exports = new PlaySkip();

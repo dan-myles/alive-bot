@@ -6,7 +6,7 @@ const { MessageEmbed } = require('discord.js');
 
 
 
-export default class Leave {
+export default class Skip {
 	public data: any;
 	private logger: any;
 	private assets: any;
@@ -15,8 +15,8 @@ export default class Leave {
 		this.logger = new Logger();
 		this.assets = new Assets();
 		this.data = new SlashCommandBuilder()
-		.setName('leave')
-		.setDescription('Disconnects Alive Music Bot from all voice channels and clears the queue');
+		.setName('skip')
+		.setDescription('Skips the current song playing');
 	}
 
 	public async execute(interaction: any, client: any)  {
@@ -26,7 +26,7 @@ export default class Leave {
         if (typeof(queue) === 'undefined') {
 			//Existing queue NOT found
 			if (voiceChannel) {
-                //voice chanel exists
+                //User voice chanel exists
                 interaction.reply({
                     embeds: [{
                         description: `${this.assets.errorEmoji}  |  I am not in any voice channels!`,
@@ -36,7 +36,7 @@ export default class Leave {
                     ephemeral: true
                 });
     
-                this.logger.warn("Failed executing /leave command: PLAYER NOT FOUND")
+                this.logger.warn("Failed executing /skip command: PLAYER NOT FOUND")
 			} else {
 				//User is not in a voice channel
 				interaction.reply({
@@ -47,7 +47,7 @@ export default class Leave {
 					}],
 					ephemeral: true
 				});
-				this.logger.warn("Failed executing /leave command: USER VOICE CHANNEL NOT FOUND");
+				this.logger.warn("Failed executing /skip command: USER VOICE CHANNEL NOT FOUND");
 			}
 		} else {
 			//Existing queue found
@@ -56,20 +56,30 @@ export default class Leave {
 				let botId = interaction.guild.me.voice.channel.id;
 				if (userId === botId) {
 					//User is in same voice as bot
-                    queue.stop();
-                    client.player.voices.leave(interaction.guildId);
-
-                    interaction.reply({
-                        embeds: [{
-                            description: `${this.assets.successEmoji}  |  I have left all voice channels!`,
-                            color: this.assets.embedColor,
-                            author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL }),
-							footer: ({ text: this.assets.footerText })
-                        }],
-                        ephemeral: false
-                    });
-                    this.logger.info("Executed /leave command: SUCCESS");
-                    setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
+					try {
+						const song = await queue.skip();
+						interaction.reply({
+							embeds: [{
+								description: `${this.assets.successEmoji}  |  I have skipped the current song!`,
+								color: this.assets.embedColor,
+								author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL }),
+								footer: ({ text: this.assets.footerText })
+							}],
+							ephemeral: false
+						});
+						this.logger.info("Executed /skip command: SUCCESS");
+						setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
+					} catch(error) {
+						interaction.reply({
+							embeds: [{
+								description: `${this.assets.errorEmoji}  |  ${error}`,
+								color: this.assets.embedColor,
+								author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL }),
+							}],
+							ephemeral: true
+						});
+						this.logger.warn("Failed executing /skip command: UNHANDLED ERROR")
+					}
 				} else {
 					//User is NOT in same voice as bot
 					interaction.reply({
@@ -80,7 +90,7 @@ export default class Leave {
 						}],
 						ephemeral: true
 					});
-					this.logger.warn("Failed executing /leave command: USER AND APPLICATION VOICE IDS DO NOT MATCH")
+					this.logger.warn("Failed executing /skip command: USER AND APPLICATION VOICE IDS DO NOT MATCH")
 				}
 			} else {
 				//User is not in a voice channel
@@ -92,10 +102,10 @@ export default class Leave {
 					}],
 					ephemeral: true
 				});
-				this.logger.warn("Failed executing /leave command: USER VOICE CHANNEL NOT FOUND");
+				this.logger.warn("Failed executing /skip command: USER VOICE CHANNEL NOT FOUND");
 			}
 		}
-    }
+	}
 }
 
-module.exports = new Leave();
+module.exports = new Skip();

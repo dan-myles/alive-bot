@@ -7,7 +7,7 @@ const Logger_1 = __importDefault(require("../Logger"));
 const Assets_1 = __importDefault(require("../Assets"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-class AutoPlay {
+class Resume {
     data;
     logger;
     assets;
@@ -15,8 +15,8 @@ class AutoPlay {
         this.logger = new Logger_1.default();
         this.assets = new Assets_1.default();
         this.data = new SlashCommandBuilder()
-            .setName('autoplay')
-            .setDescription('Toggles autoplay on or off');
+            .setName('resume')
+            .setDescription('Resumes a paused player');
     }
     async execute(interaction, client) {
         const voiceChannel = interaction.member.voice.channel;
@@ -33,7 +33,7 @@ class AutoPlay {
                         }],
                     ephemeral: true
                 });
-                this.logger.warn("Failed executing /autoplay command: PLAYER NOT FOUND");
+                this.logger.warn("Failed executing /resume command: PLAYER NOT FOUND");
             }
             else {
                 //User is not in a voice channel
@@ -45,7 +45,7 @@ class AutoPlay {
                         }],
                     ephemeral: true
                 });
-                this.logger.warn("Failed executing /autoplay command: USER VOICE CHANNEL NOT FOUND");
+                this.logger.warn("Failed executing /resume command: USER VOICE CHANNEL NOT FOUND");
             }
         }
         else {
@@ -55,17 +55,17 @@ class AutoPlay {
                 let botId = interaction.guild.me.voice.channel.id;
                 if (userId === botId) {
                     //User is in same voice as bot
-                    const autoPlay = queue.toggleAutoplay();
+                    queue.resume();
                     interaction.reply({
                         embeds: [{
-                                description: `Auto-Play has been turned: \`${autoPlay ? 'On' : 'Off'}\``,
+                                description: `:arrow_forward:  |  I have resumed the player!`,
                                 color: this.assets.embedColor,
                                 author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL }),
                                 footer: ({ text: this.assets.footerText })
                             }],
                         ephemeral: false
                     });
-                    this.logger.info("Executed /autoplay command: SUCCESS");
+                    this.logger.info("Executed /resume command: SUCCESS");
                     setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
                 }
                 else {
@@ -78,7 +78,7 @@ class AutoPlay {
                             }],
                         ephemeral: true
                     });
-                    this.logger.warn("Failed executing /autoplay command: USER AND APPLICATION VOICE IDS DO NOT MATCH");
+                    this.logger.warn("Failed executing /resume command: USER AND APPLICATION VOICE IDS DO NOT MATCH");
                 }
             }
             else {
@@ -91,10 +91,10 @@ class AutoPlay {
                         }],
                     ephemeral: true
                 });
-                this.logger.warn("Failed executing /autoplay command: USER VOICE CHANNEL NOT FOUND");
+                this.logger.warn("Failed executing /resume command: USER VOICE CHANNEL NOT FOUND");
             }
         }
     }
 }
-exports.default = AutoPlay;
-module.exports = new AutoPlay();
+exports.default = Resume;
+module.exports = new Resume();

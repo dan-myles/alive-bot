@@ -21,28 +21,26 @@ class Queue {
     async execute(interaction, client) {
         const queue = client.player.getQueue(interaction.guildId);
         if (typeof (queue) != 'undefined') {
-            interaction.deferReply();
-            interaction.deleteReply();
-            this.logger.info("Executed /queue command: SUCCESS");
-            interaction.channel.send({
-                embeds: [
-                    new MessageEmbed()
-                        .setColor(this.assets.embedColor)
-                        .setTitle('Queue')
-                        .setDescription(queue.songs.map((song, id, url) => `**${id + 1}**. [${song.name}](${song.url}) - \`${song.formattedDuration}\``)
-                        .join("\n"))
-                        .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
-                        .setTimestamp()
-                        .setFooter({ text: this.assets.footerText })
-                ]
-            }).then((repliedMessage) => {
-                setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNormal);
-            });
-        }
-        else {
+            //Queue found
             interaction.reply({
                 embeds: [{
-                        description: `**${this.assets.errorEmoji}  |  <@${interaction.user.id}>, there is nothing in the queue right now!**`,
+                        title: 'Queue',
+                        description: queue.songs.map((song, id, url) => `**${id + 1}**. [${song.name}](${song.url}) - \`${song.formattedDuration}\``)
+                            .join("\n"),
+                        color: this.assets.embedColor,
+                        author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL }),
+                        footer: ({ text: this.assets.footerText }),
+                    }],
+                ephemeral: false
+            });
+            this.logger.info("Executed /queue command: SUCCESS");
+            setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
+        }
+        else {
+            //No queue found
+            interaction.reply({
+                embeds: [{
+                        description: `${this.assets.errorEmoji}  |  There is nothing in the queue right now!`,
                         color: this.assets.embedErrorColor,
                         author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
                     }],
