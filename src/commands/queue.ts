@@ -24,7 +24,7 @@ export default class Queue {
 
 		if (typeof(queue) != 'undefined') {
 			//Queue found
-			interaction.reply({
+			await interaction.reply({
 				embeds: [{
 					title: 'Queue',
 					description: queue.songs.map((song: any, id: any, url: any) =>
@@ -40,7 +40,7 @@ export default class Queue {
 			setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
 		} else {
 			//No queue found
-			interaction.reply({
+			await interaction.reply({
 				embeds: [{
 					description: `${this.assets.errorEmoji}  |  There is nothing in the queue right now!`,
 					color: this.assets.embedErrorColor,

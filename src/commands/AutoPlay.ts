@@ -27,7 +27,7 @@ export default class AutoPlay {
 			//Existing queue NOT found
 			if (voiceChannel) {
                 //User voice chanel exists
-                interaction.reply({
+                await interaction.reply({
                     embeds: [{
                         description: `${this.assets.errorEmoji}  |  I am not in any voice channels!`,
                         color: this.assets.embedErrorColor,
@@ -39,7 +39,7 @@ export default class AutoPlay {
                 this.logger.warn("Failed executing /autoplay command: PLAYER NOT FOUND")
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,
@@ -58,7 +58,7 @@ export default class AutoPlay {
 					//User is in same voice as bot
 					const autoPlay = queue.toggleAutoplay();
 					
-					interaction.reply({
+					await interaction.reply({
                         embeds: [{
                             description: `Auto-Play has been turned: \`${autoPlay ? 'On' : 'Off'}\``,
                             color: this.assets.embedColor,
@@ -71,7 +71,7 @@ export default class AutoPlay {
 					setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
 				} else {
 					//User is NOT in same voice as bot
-					interaction.reply({
+					await interaction.reply({
 						embeds: [{
 							description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!`,
 							color: this.assets.embedErrorColor,
@@ -83,7 +83,7 @@ export default class AutoPlay {
 				}
 			} else {
 				//User is not in a voice channel
-				interaction.reply({
+				await interaction.reply({
 					embeds: [{
 						description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
 						color: this.assets.embedErrorColor,

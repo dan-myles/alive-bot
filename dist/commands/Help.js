@@ -19,7 +19,7 @@ class Help {
             .setDescription('Shows a helpful prompt');
     }
     async execute(interaction, client) {
-        interaction.reply({
+        await interaction.reply({
             embeds: [{
                     title: `I heard you needed help :person_tipping_hand:`,
                     description: `Hello, <@${interaction.user.id}>\nThis page shows you all commands available for this build of Alive Music Bot.

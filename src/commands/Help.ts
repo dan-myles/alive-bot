@@ -20,7 +20,7 @@ export default class Help {
 	}
 
 	public async execute(interaction: any, client: any)  {
-        interaction.reply({
+        await interaction.reply({
             embeds: [{
                 title: `I heard you needed help :person_tipping_hand:`,
                 description: `Hello, <@${interaction.user.id}>\nThis page shows you all commands available for this build of Alive Music Bot.
