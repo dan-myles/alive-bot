@@ -9,7 +9,9 @@
 # Alive Music Bot
 
 > A Discord music bot built on NodeJS and Typescript using DiscordJS, DiscordJS-Voice, and Distube. Alive Music Bot makes it easy for an everyday user to host their own music bot with *no restrictions*.
-> [Alive Music Bot Support Server](https://apeswon.club) - [Frequently Asked Questions](https://apeswon.club)
+
+[Alive Music Bot Support Server](https://apeswon.club) || 
+[Frequently Asked Questions](https://apeswon.club)
 
 ## 📋 Features
 - Easy to setup and run yourself
