@@ -128,7 +128,7 @@ export default class PlayerActions {
             embeds: [
                 new MessageEmbed()
                 .setColor(this.assets.embedColor)
-                .setDescription(`**${this.assets.errorEmoji}  |  Channel is empty, leaving all channels!**`)
+                .setDescription(`${this.assets.errorEmoji}  |  Channel is empty, leaving all channels!`)
                 .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
                 .setTimestamp()
                 .setFooter({ text: this.assets.footerText })
@@ -146,7 +146,7 @@ export default class PlayerActions {
             embeds: [
                 new MessageEmbed()
                 .setColor(this.assets.embedColor)
-                .setDescription(`**${this.assets.errorEmoji}  |  Queue has finished! In order to keep using Alive Music Bot, add some more songs to the queue!**`)
+                .setDescription(`${this.assets.errorEmoji}  |  Queue has finished! In order to keep using Alive Music Bot, add some more songs to the queue!`)
                 .setAuthor({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
                 .setTimestamp()
                 .setFooter({ text: this.assets.footerText })

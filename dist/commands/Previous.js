@@ -7,7 +7,7 @@ const Logger_1 = __importDefault(require("../Logger"));
 const Assets_1 = __importDefault(require("../Assets"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-class AutoPlay {
+class Previous {
     data;
     logger;
     assets;
@@ -15,8 +15,8 @@ class AutoPlay {
         this.logger = new Logger_1.default();
         this.assets = new Assets_1.default();
         this.data = new SlashCommandBuilder()
-            .setName('autoplay')
-            .setDescription('Toggles autoplay on or off');
+            .setName('previous')
+            .setDescription('Plays the previous song in the queue');
     }
     async execute(interaction, client) {
         const voiceChannel = interaction.member.voice.channel;
@@ -33,7 +33,7 @@ class AutoPlay {
                         }],
                     ephemeral: true
                 });
-                this.logger.warn("Failed executing /autoplay command: PLAYER NOT FOUND");
+                this.logger.warn("Failed executing /previous command: PLAYER NOT FOUND");
             }
             else {
                 //User is not in a voice channel
@@ -45,7 +45,7 @@ class AutoPlay {
                         }],
                     ephemeral: true
                 });
-                this.logger.warn("Failed executing /autoplay command: USER VOICE CHANNEL NOT FOUND");
+                this.logger.warn("Failed executing /previous command: USER VOICE CHANNEL NOT FOUND");
             }
         }
         else {
@@ -55,18 +55,33 @@ class AutoPlay {
                 let botId = interaction.guild.me.voice.channel.id;
                 if (userId === botId) {
                     //User is in same voice as bot
-                    const autoPlay = queue.toggleAutoplay();
-                    interaction.reply({
-                        embeds: [{
-                                description: `Auto-Play has been turned: \`${autoPlay ? 'On' : 'Off'}\``,
-                                color: this.assets.embedColor,
-                                author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL }),
-                                footer: ({ text: this.assets.footerText })
-                            }],
-                        ephemeral: false
-                    });
-                    this.logger.info("Executed /autoplay command: SUCCESS");
-                    setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
+                    let previous = queue.previousSongs;
+                    if (previous.length != 0) {
+                        //Previous songs are found
+                        let song = queue.previous();
+                        interaction.reply({
+                            embeds: [{
+                                    description: `:rewind:  | Started playing the previous song!\n*Requested by:* <@${interaction.user.id}>`,
+                                    color: this.assets.embedColor,
+                                    author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
+                                }],
+                            ephemeral: false
+                        });
+                        this.logger.info("Executed /previous command: SUCCESS");
+                        setTimeout(() => interaction.deleteReply(), this.assets.deleteDurationNormal);
+                    }
+                    else {
+                        //No previous song exists
+                        interaction.reply({
+                            embeds: [{
+                                    description: `${this.assets.errorEmoji}  |  No previous song found!`,
+                                    color: this.assets.embedErrorColor,
+                                    author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
+                                }],
+                            ephemeral: true
+                        });
+                        this.logger.warn("Failed executing /previous command: NO PREVIOUS SONG FOUND");
+                    }
                 }
                 else {
                     //User is NOT in same voice as bot
@@ -78,7 +93,7 @@ class AutoPlay {
                             }],
                         ephemeral: true
                     });
-                    this.logger.warn("Failed executing /autoplay command: USER AND APPLICATION VOICE IDS DO NOT MATCH");
+                    this.logger.warn("Failed executing /previous command: USER AND APPLICATION VOICE IDS DO NOT MATCH");
                 }
             }
             else {
@@ -91,10 +106,10 @@ class AutoPlay {
                         }],
                     ephemeral: true
                 });
-                this.logger.warn("Failed executing /autoplay command: USER VOICE CHANNEL NOT FOUND");
+                this.logger.warn("Failed executing /previous command: USER VOICE CHANNEL NOT FOUND");
             }
         }
     }
 }
-exports.default = AutoPlay;
-module.exports = new AutoPlay();
+exports.default = Previous;
+module.exports = new Previous();

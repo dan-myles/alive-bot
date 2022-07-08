@@ -7,7 +7,6 @@ const Logger_1 = __importDefault(require("../Logger"));
 const Assets_1 = __importDefault(require("../Assets"));
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const dotenv = require('dotenv').config();
 class Play {
     data;
     logger;
@@ -26,8 +25,8 @@ class Play {
     async execute(interaction, client) {
         const recievedMessage = interaction.options.getString('song');
         const voiceChannel = interaction.member.voice.channel;
-        const testQueue = client.player.getQueue(interaction.guildId);
-        if (typeof (testQueue) === 'undefined') {
+        const queue = client.player.getQueue(interaction.guildId);
+        if (typeof (queue) === 'undefined') {
             //Existing queue NOT found
             if (voiceChannel) {
                 interaction.deferReply();
@@ -42,7 +41,7 @@ class Play {
                 //User is not in a voice channel
                 interaction.reply({
                     embeds: [{
-                            description: `**${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!**`,
+                            description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
                             color: this.assets.embedErrorColor,
                             author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
                         }],
@@ -70,7 +69,7 @@ class Play {
                     //User is NOT in same voice as bot
                     interaction.reply({
                         embeds: [{
-                                description: `**${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!**`,
+                                description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you must be in <#${botId}> to use that command!`,
                                 color: this.assets.embedErrorColor,
                                 author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
                             }],
@@ -83,7 +82,7 @@ class Play {
                 //User is not in a voice channel
                 interaction.reply({
                     embeds: [{
-                            description: `**${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!**`,
+                            description: `${this.assets.errorEmoji}  |  <@${interaction.user.id}>, you are not in a voice channel!`,
                             color: this.assets.embedErrorColor,
                             author: ({ name: this.assets.name, iconURL: this.assets.logoPFP6, url: this.assets.URL })
                         }],
