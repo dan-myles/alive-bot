@@ -46,7 +46,7 @@ class Assets {
         this.errorEmoji = ':x:';
         this.successEmoji = ':white_check_mark:';
         this.discordInvite = 'https://apeswon.club';
-        this.version = 'v1.9.102';
+        this.version = 'v2.0.1';
     }
 }
 exports.default = Assets;
