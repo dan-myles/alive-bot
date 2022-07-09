@@ -30,7 +30,7 @@
 - Apple Music (Coming Soon)
 - Any Audio Link
 
-*Update to the latest version of Alive Music Bot for the latest support*
+*Make sure to stay on the lataest version of Alive Music Bot!*
 
 ## 🧾 Requirements
 - Discord Bot Token - **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
