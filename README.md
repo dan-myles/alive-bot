@@ -6,7 +6,7 @@
     </p>
 </div>
 
-# Alive Music Bot
+# Alive
 
 > A Discord music bot built on NodeJS and Typescript using DiscordJS, DiscordJS-Voice, and Distube. Alive Music Bot makes it easy for an everyday user to host their own music bot with *no restrictions*.
 
