@@ -6,7 +6,7 @@
     </p>
 </div>
 
-# Alive Music Bot
+# Alive
 
 > A Discord music bot built on NodeJS and Typescript using DiscordJS, DiscordJS-Voice, and Distube. Alive Music Bot makes it easy for an everyday user to host their own music bot with *no restrictions*.
 
@@ -30,13 +30,15 @@
 - Apple Music (Coming Soon)
 - Any Audio Link
 
-*Update to the latest version of Alive Music Bot for the latest support*
+*Make sure to stay on the lataest version of Alive Music Bot!*
 
 ## 🧾 Requirements
 - Discord Bot Token - **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
 - Guild ID
 - Client ID
-- Node JS v16.11.0 or newer
+- Node JS v18.4.0 or newer
+
+*This application may work on older versions of Node, but are not explicitly supported.*
 
 ## 🚀 Getting Started
 
