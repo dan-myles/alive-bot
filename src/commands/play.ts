@@ -38,7 +38,7 @@ export default class Play {
 			//Existing queue NOT found
 			if (voiceChannel) {
 				interaction.deferReply();
-				await interaction.deleteReply();
+				interaction.deleteReply();
 				client.player.play(voiceChannel, recievedMessage, {
 					member: interaction.member,
 					textChannel: interaction.channel
@@ -64,7 +64,7 @@ export default class Play {
 				if (userId === botId) {
 					//User is in same voice as bot
 					interaction.deferReply();
-					await interaction.deleteReply();
+					interaction.deleteReply();
 					client.player.play(voiceChannel, recievedMessage, {
 						member: interaction.member,
 						textChannel: interaction.channel

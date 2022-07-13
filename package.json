@@ -23,7 +23,7 @@
     "distube": "^3.3.4",
     "dotenv": "^16.0.1",
     "ffmpeg-static": "^4.4.1",
-    "log4js": "^6.5.2",
+    "log4js": "^6.6.0",
     "python": "^0.0.4",
     "sodium": "^3.0.2",
     "uuidv1": "^1.6.14"
