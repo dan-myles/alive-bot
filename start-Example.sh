@@ -1,6 +1,6 @@
 #This is a really rudimentary start script included to make things easier for people
 #Works off of relative directories when cloning the project.
-#Much easier to use TSX transpiler but found issues with FFMPEG and the transpiled code.
+#Much easier to use TSX transpiler but found issues with FFMPEG using tsx.
 
 cd ./dist
 echo Changed directory to:
