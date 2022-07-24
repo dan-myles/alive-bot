@@ -28,7 +28,7 @@
 - Spotify Playlists
 - SoundCloud Playlists
 - Apple Music (Coming Soon)
-- Any Audio Link
+- Any Direct Audio Link
 
 *Make sure to stay on the lataest version of Alive Music Bot!*
 
