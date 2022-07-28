@@ -111,6 +111,3 @@ You can manage command permissions via Discord interface in server settings.
 - /stop
 `Stops the player and clears the current queue`
 
-
-
-
