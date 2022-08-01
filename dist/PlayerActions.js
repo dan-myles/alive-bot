@@ -59,9 +59,12 @@ class PlayerActions {
                     .setThumbnail(song.thumbnail)
                     .setFooter({ text: this.assets.footerText })
             ]
-        }).then((repliedMessage) => {
-            setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNormal);
         }));
+        // .then(
+        //     (repliedMessage: any) => {
+        //         setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNormal)
+        //     }
+        // ));
     }
     //Playing Next Song Event
     playSong(client) {
@@ -76,9 +79,12 @@ class PlayerActions {
                     .setImage(song.thumbnail)
                     .setFooter({ text: this.assets.footerText })
             ]
-        }).then((repliedMessage) => {
-            setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP);
         }));
+        // .then(
+        //     (repliedMessage: any) => {
+        //         setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
+        //     }
+        // ));
     }
     //Empty channel event
     empty(client) {
@@ -91,9 +97,12 @@ class PlayerActions {
                     .setTimestamp()
                     .setFooter({ text: this.assets.footerText })
             ]
-        }).then((repliedMessage) => {
-            setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP);
         }));
+        //     .then(
+        //     (repliedMessage: any) => {
+        //         setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
+        //     }
+        // ));
     }
     //Finished queue event
     finish(client) {
