@@ -49,6 +49,11 @@ git clone https://github.com/danlikestocode/Alive-Core
 npm install
 ```
 
+*Note: Some systems may require Libtools to be installed to compile Libsodium, if you are on a linux system you can run the following command to install them:*
+```sh
+sudo apt-get install libtool
+```
+
 ## ⚙️ Configuration
 
 Copy or Rename `env.example` to `.env` and fill out the values:
