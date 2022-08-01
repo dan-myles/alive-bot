@@ -1,4 +1,4 @@
-export {}
+export { }
 import Logger from "../Logger";
 
 export default class Ready {

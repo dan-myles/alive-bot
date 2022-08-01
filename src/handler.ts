@@ -4,7 +4,7 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('node:fs');
 const path = require('node:path');
-const dotenv = require ('dotenv');
+const dotenv = require('dotenv');
 
 
 const logger = new Logger();
@@ -26,7 +26,7 @@ export default class Handler {
 
     //Dynamically registering commands in /commands
     //Important: Currently not filtering for ONLY .ts files
-    public registerCommands () {
+    public registerCommands() {
         logger.debug("Instantiating register commands interface...")
 
         const commands: any = [];
@@ -41,7 +41,7 @@ export default class Handler {
             commands.push(command.data.toJSON());
         }
 
-        const rest = new REST({version: '9'}).setToken(this.token);
+        const rest = new REST({ version: '9' }).setToken(this.token);
 
         (async () => {
             try {
@@ -54,11 +54,11 @@ export default class Handler {
                 );
 
                 logger.debug("Succesfully registered all application commands!")
-            } catch(error) {
+            } catch (error) {
                 logger.error(error);
             }
         })();
-        
+
     }
 
 

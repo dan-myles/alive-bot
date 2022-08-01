@@ -9,7 +9,7 @@ const { SoundCloudPlughin } = require('@distube/soundcloud');
 
 const dotenv = require('dotenv').config();
 const fs = require('node:fs');
-const path = require ('node:path');
+const path = require('node:path');
 
 
 
@@ -35,7 +35,7 @@ export default class Initialize {
     public startApplication() {
         //Registering slash commands
         this.handler.registerCommands();
-        
+
         //Starting client
         this.logger.debug("Attempting to create a new client instance...")
         const client = new Client({
@@ -52,7 +52,7 @@ export default class Initialize {
                 new SpotifyPlugin({
                     parallel: true,
                     emitEventsAfterFetching: true,
-                 })
+                })
             ],
             searchSongs: 5,
             searchCooldown: 5,
@@ -62,7 +62,7 @@ export default class Initialize {
             leaveOnStop: false,
         });
         client.player = player;
-        
+
         //Dynamically loading commands
         this.logger.debug("Dynamically loading commands...")
         client.commands = new Collection();
@@ -89,14 +89,14 @@ export default class Initialize {
             if (event.once) {
                 client.once(event.name, () => event.execute(client));
             } else {
-                client.on(event.name, async (interaction: any) => 
-                event.execute(interaction, client));
+                client.on(event.name, async (interaction: any) =>
+                    event.execute(interaction, client));
             }
         }
 
         //Loading player events
         this.playerActions.startPlayerEventListener(client);
-        
+
         //Logging into discord         
         this.logger.debug("Authenticating your clients token...");
         client.login(this.token);

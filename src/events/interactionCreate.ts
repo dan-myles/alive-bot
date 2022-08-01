@@ -1,4 +1,4 @@
-export {}
+export { }
 import Logger from "../Logger";
 
 
@@ -21,7 +21,7 @@ export default class InteractionCreate {
 
         try {
             await command.execute(interaction, client)
-        }  catch (error) {
+        } catch (error) {
             this.logger.error(error);
             await interaction.reply({
                 content: 'There was an error while executing this command!',
