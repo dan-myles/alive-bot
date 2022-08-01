@@ -1,3 +1,4 @@
+//Types for NodeJS
 declare namespace NodeJS {
     interface ProcessEnv {
         readonly DISCORD_TOKEN: string
@@ -5,3 +6,4 @@ declare namespace NodeJS {
         readonly GUILD_ID: string
     }
 }
+
