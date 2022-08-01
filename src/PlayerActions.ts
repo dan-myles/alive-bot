@@ -89,11 +89,12 @@ export default class PlayerActions {
                     .setThumbnail(song.thumbnail)
                     .setFooter({ text: this.assets.footerText })
             ]
-        }).then(
-            (repliedMessage: any) => {
-                setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNormal)
-            }
-        ));
+        }));
+        // .then(
+        //     (repliedMessage: any) => {
+        //         setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNormal)
+        //     }
+        // ));
     }
 
     //Playing Next Song Event
@@ -114,11 +115,12 @@ export default class PlayerActions {
                     .setImage(song.thumbnail)
                     .setFooter({ text: this.assets.footerText })
             ]
-        }).then(
-            (repliedMessage: any) => {
-                setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
-            }
-        ));
+        }));
+        // .then(
+        //     (repliedMessage: any) => {
+        //         setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
+        //     }
+        // ));
     }
 
     //Empty channel event
@@ -132,11 +134,12 @@ export default class PlayerActions {
                     .setTimestamp()
                     .setFooter({ text: this.assets.footerText })
             ]
-        }).then(
-            (repliedMessage: any) => {
-                setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
-            }
-        ));
+        }));
+        //     .then(
+        //     (repliedMessage: any) => {
+        //         setTimeout(() => repliedMessage.delete(), this.assets.deleteDurationNP)
+        //     }
+        // ));
     }
 
     //Finished queue event
