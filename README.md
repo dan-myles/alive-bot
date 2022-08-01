@@ -9,6 +9,7 @@
 # Alive
 
 > A Discord music bot built on NodeJS and Typescript using DiscordJS, DiscordJS-Voice, and Distube. Alive Music Bot makes it easy for an everyday user to host their own music bot with *no restrictions*.
+> Alive now ships with [PM2](https://pm2.keymetrics.io/), a process manager and load balancer for Node applications.
 
 [Alive Music Bot Support Server](https://apeswon.club) || 
 [Frequently Asked Questions](https://apeswon.club)
@@ -69,7 +70,17 @@ GUILD_ID=
 After setting up your .env file you can use the following command to start your bot:
 
 ```sh
-npm start
+npx pm2 start ./dist/main.js
+```
+
+Alive now ships with [PM2](https://pm2.keymetrics.io/) a load balancer and process manager for Node applications.
+This will keep your music bot up and running at all times! If you would like to learn more about PM2 you can visit their [documentation](https://pm2.keymetrics.io/docs/usage/quick-start/).
+
+Below are some helpful commands to get you started in using PM2.
+
+```sh
+npx pm2 list    #Shows all running PM2 processes.
+npx pm2 kill    #Kills all running PM2 processes.
 ```
 
 ## 📝 Commands
