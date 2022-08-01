@@ -10,13 +10,13 @@ export default class Logger {
         this.assets = new Assets();
         log4js.configure({
             appenders: {
-              Alive: { type: 'stdout' },
+                Alive: { type: 'stdout' },
             },
             categories: {
-              default: {
-                appenders: ['Alive'],
-                level: 'all',
-              },
+                default: {
+                    appenders: ['Alive'],
+                    level: 'all',
+                },
             },
         });
 
@@ -63,7 +63,7 @@ export default class Logger {
         Please make sure you are on the latest version of Alive Music Bot, since you are using Alive-Core auto-updating is not handled!
         Latest releases can be found at: https://github.com/danlikestocode/Alive-Core/releases
         \n\n\n\n\n`);
-        
+
     }
 
 }

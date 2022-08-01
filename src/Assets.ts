@@ -1,4 +1,4 @@
-export {}
+export { }
 
 export default class Assets {
     public readonly logger: any;
