@@ -50,7 +50,7 @@ git clone https://github.com/danlikestocode/Alive-Core
 npm install
 ```
 
-*Note: Some systems may require Libtools to be installed to compile Libsodium, if you are on a linux system you can run the following command to install them:*
+*Note: Some systems may require Libtools to be installed to compile Libsodium, if you are on a linux system you can run the following command to install them. If you are on a Windows system you may have to install Microsoft Visual Studio.*
 ```sh
 sudo apt-get install libtool
 ```
