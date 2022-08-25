@@ -10,7 +10,7 @@
 
 > A Discord music bot built on NodeJS and Typescript using DiscordJS, DiscordJS-Voice, and Distube. Alive Music Bot makes it easy for an everyday user to host their own music bot with *no restrictions*.
 
-> Alive now ships with [PM2](https://pm2.keymetrics.io/), a process manager and load balancer for Node applications.
+*Alive now ships with [PM2](https://pm2.keymetrics.io/), a process manager and load balancer for Node applications.*
 
 [Alive Music Bot Support Server](https://apeswon.club) || 
 [Frequently Asked Questions](https://apeswon.club)
